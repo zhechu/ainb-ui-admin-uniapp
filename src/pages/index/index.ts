@@ -80,13 +80,19 @@ function resolveItem(item: MenuItem): MenuItem {
   return item
 }
 
-/** 判断菜单是否有访问权限 */
+/**
+ * 判断菜单是否有访问权限
+ *
+ * 采用白名单策略：菜单必须显式配置 permission / permissions，且当前用户拥有其中任一权限，才会展示。
+ * 未配置权限的菜单项一律不展示 —— 避免后台禁用菜单后，前端仍然把入口暴露出来。
+ * 因此 menu.json 里新增菜单时，务必同步配置 permission。
+ */
 function hasMenuAccess(item: MenuItem, hasAccessByCodes: (codes: string[]) => boolean) {
   const permissions = [
     item.permission,
     ...(item.permissions || []),
   ].filter(Boolean) as string[]
-  return permissions.length === 0 || hasAccessByCodes(permissions)
+  return permissions.length > 0 && hasAccessByCodes(permissions)
 }
 
 /**
@@ -101,7 +107,7 @@ export function getMenuGroups(): MenuGroup[] {
   for (const group of groupsData) {
     const subGroups: MenuSubGroup[] = []
     for (const sub of group.subGroups) {
-      // 没有配置权限的菜单项默认展示
+      // 未配置权限、或当前用户无权限的菜单项，均不展示
       const menus = sub.menus
         .filter(menu => hasMenuAccess(menu, hasAccessByCodes))
         .map(resolveItem)

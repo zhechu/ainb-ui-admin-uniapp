@@ -26,14 +26,13 @@
     <!-- 用户信息头部 -->
     <UserHeader />
     <!-- Banner 轮播图 -->
-    <HomeBanner />
+    <!-- <HomeBanner /> -->
     <!-- 菜单区域 -->
     <MenuSection />
   </view>
 </template>
 
 <script lang="ts" setup>
-import HomeBanner from './components/banner.vue'
 import MenuSection from './components/menu-section.vue'
 import UserHeader from './components/user-header.vue'
 
