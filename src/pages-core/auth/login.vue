@@ -44,34 +44,34 @@
       </view>
 
       <!-- 登录按钮 -->
-      <view class="mb-2 mt-2 flex justify-between">
+      <!-- <view class="mb-2 mt-2 flex justify-between">
         <text v-if="!socialBindingContext && !authLoading" class="text-28rpx text-[#1890ff]" @click="goToSmsLogin">
           验证码登录
         </text>
         <text v-if="!authLoading" class="text-28rpx text-[#1890ff]" @click="goToForgetPassword">
           忘记密码？
         </text>
-      </view>
+      </view> -->
       <wd-button block :disabled="authLoading" :loading="loading" type="primary" @click="handleLogin">
         登录
       </wd-button>
 
       <!-- 第三方登录 -->
-      <SocialLoginPanel
+      <!-- <SocialLoginPanel
         v-model="socialBindingContext"
         v-model:loading="socialLoginLoading"
         :disabled="authLoading"
         :redirect-url="redirectUrl"
         :social-bind="Boolean(pageProps.socialBind)"
         :validate-tenant="validateTenant"
-      />
+      /> -->
       <!-- 创建账号 -->
-      <view v-if="!socialBindingContext && !authLoading" class="mt-40rpx flex items-center justify-center">
+      <!-- <view v-if="!socialBindingContext && !authLoading" class="mt-40rpx flex items-center justify-center">
         <text class="text-28rpx text-[#666]">还没有账号？</text>
         <text class="text-28rpx text-[#1890ff]" @click="goToRegister">
           创建账号
         </text>
-      </view>
+      </view> -->
     </view>
   </view>
 </template>
@@ -88,7 +88,6 @@ import {
 import { useTokenStore } from '@/store/token'
 import { ensureDecodeURIComponent, redirectAfterLogin } from '@/utils'
 import Header from './components/header.vue'
-import SocialLoginPanel from './components/social-login-panel.vue'
 import TenantPicker from './components/tenant-picker.vue'
 import Verify from './components/verifition/verify.vue'
 

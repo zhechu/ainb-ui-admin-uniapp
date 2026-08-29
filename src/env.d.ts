@@ -31,6 +31,8 @@ interface ImportMetaEnv {
   readonly VITE_AUTH_MODE: 'single' | 'double'
   /** 是否清除console */
   readonly VITE_DELETE_CONSOLE: string
+  /** 第三方登录开关（钉钉、企业微信、微信公众号、微信快捷登录） */
+  readonly VITE_APP_SOCIAL_LOGIN_ENABLE: 'true' | 'false'
   // 更多环境变量...
 }
 

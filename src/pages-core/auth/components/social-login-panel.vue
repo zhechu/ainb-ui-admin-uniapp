@@ -108,7 +108,9 @@ const allSocialLoginOptions: SocialLoginOption[] = [ // 第三方登录入口
     visible: isMpWeixin,
   },
 ]
-const socialLoginOptions = allSocialLoginOptions.filter(item => item.visible) // 当前平台支持的第三方登录入口
+const socialLoginEnabled = import.meta.env.VITE_APP_SOCIAL_LOGIN_ENABLE !== 'false' // 第三方登录开关，默认开启
+// 当前平台支持的第三方登录入口；开关关闭时为空数组，模板中的 socialLoginOptions.length 判断会隐藏整个面板
+const socialLoginOptions = socialLoginEnabled ? allSocialLoginOptions.filter(item => item.visible) : []
 
 /** 更新三方登录状态 */
 function updateSocialLoading(value: boolean) {
