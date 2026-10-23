@@ -24,11 +24,11 @@ export const faqList: FaqCategory[] = [
     title: '系统问题',
     childList: [
       {
-        title: 'X评云官网地址多少？',
+        title: '启凌智搭官网地址多少？',
         content: 'http://81.71.100.62',
       },
       {
-        title: 'X评云文档地址多少？',
+        title: '启凌智搭文档地址多少？',
         content: 'http://81.71.100.62',
       },
     ],

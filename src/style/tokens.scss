@@ -1,0 +1,26 @@
+// 品牌设计令牌：与 Web 端 ainb-ui-admin-vue3/src/styles/var.css 对齐（移动端仅亮色，暂无暗色模式）
+:root,
+page {
+  // wot-design-uni 主题色：组件主色 / tabbar 高亮 / uno primary 的唯一来源
+  --wot-color-theme: #1890ff;
+
+  // 品牌色
+  --brand-primary: #1890ff;
+  --brand-grad: linear-gradient(120deg, #22a6f2 0%, #3b4bd8 100%);
+
+  // 画布 / 表面 / 分隔线
+  --brand-canvas: #e9eef9;
+  --brand-surface: #fff;
+  --brand-line: #eef1f6;
+
+  // 圆角阶梯：控件 < 小卡 < 面板 < hero
+  --brand-radius-control: 6px;
+  --brand-radius-card: 10px;
+  --brand-radius-panel: 12px;
+  --brand-radius-hero: 20px;
+
+  // 阴影
+  --brand-shadow-1: 0 1px 2px rgb(31 45 90 / 4%), 0 8px 24px rgb(31 45 90 / 8%);
+  --brand-shadow-2: 0 24px 64px rgb(31 45 90 / 14%);
+  --brand-btn-shadow: 0 4px 12px rgb(59 75 216 / 24%);
+}

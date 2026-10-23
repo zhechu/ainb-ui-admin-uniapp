@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/yudaocode/yudao-ui-admin-uniapp">
-    <img width="160" src="./src/static/logo.svg">
+    <img width="160" src="./src/static/logo.png">
   </a>
 </p>
 
