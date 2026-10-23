@@ -99,12 +99,13 @@ export const customTabbarList: CustomTabBarItem[] = [
     iconType: 'unocss',
     icon: 'i-carbon-document',
   },
-  {
-    text: '通讯录',
-    pagePath: 'pages/contact/index',
-    iconType: 'unocss',
-    icon: 'i-carbon-user-avatar',
-  },
+  // 通讯录暂隐藏（需求二）：取消注释并重跑 dev 即可恢复
+  // {
+  //   text: '通讯录',
+  //   pagePath: 'pages/contact/index',
+  //   iconType: 'unocss',
+  //   icon: 'i-carbon-user-avatar',
+  // },
   {
     text: '消息',
     pagePath: 'pages/message/index',
@@ -156,7 +157,7 @@ const _tabbar: TabBar = {
   // 只有微信小程序支持 custom。App 和 H5 不生效
   custom: selectedTabbarStrategy === TABBAR_STRATEGY_MAP.CUSTOM_TABBAR_WITH_CACHE,
   color: '#999999',
-  selectedColor: '#018d71',
+  selectedColor: '#1890ff',
   backgroundColor: '#F8F8F8',
   borderStyle: 'black',
   height: '50px',
