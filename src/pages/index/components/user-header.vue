@@ -2,7 +2,7 @@
   <view class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
     <view class="flex items-center p-24rpx">
       <view class="avatar-wrapper mr-20rpx">
-        <wd-img :src="userInfo.avatar" width="100rpx" height="100rpx" mode="aspectFill" round />
+        <wd-img :src="avatarSrc" width="100rpx" height="100rpx" mode="aspectFill" round @error="avatarLoadFailed = true" />
       </view>
       <view class="flex-1">
         <view class="text-32rpx text-#333 font-500">
@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { useUserStore } from '@/store'
+import { DEFAULT_AVATAR, useUserStore } from '@/store'
 
 defineOptions({
   name: 'UserHeader',
@@ -26,6 +26,13 @@ defineOptions({
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
+
+// 头像加载失败（如外链失效）时回退默认头像，避免裂图
+const avatarLoadFailed = ref(false)
+watch(() => userInfo.value.avatar, () => {
+  avatarLoadFailed.value = false
+})
+const avatarSrc = computed(() => (avatarLoadFailed.value ? DEFAULT_AVATAR : userInfo.value.avatar))
 
 /** 根据时间获取问候语 */
 const greeting = computed(() => {

@@ -6,12 +6,30 @@ import {
   getAuthPermissionInfo,
 } from '@/api/login'
 
+// 默认头像
+export const DEFAULT_AVATAR = '/static/images/default-avatar.png'
+
 // 初始化状态
 const userInfoState: IUserInfoRes = {
   userId: -1,
   username: '',
   nickname: '',
-  avatar: '/static/images/default-avatar.png', // TODO @芋艿：CDN 化
+  avatar: DEFAULT_AVATAR,
+}
+
+/**
+ * 归一化头像地址。
+ * 后端可能下发 Web 公共目录的相对路径（如 /imgs/xxx.png）：移动端（H5）会把它解析到 SPA 首页（返回 html）导致裂图，
+ * 拼后端 origin 也无效（该资源并不由后端提供）。故仅信任绝对 URL 与移动端本地 /static/ 资源，其余回退默认头像。
+ */
+function normalizeAvatar(avatar?: string): string {
+  if (!avatar) {
+    return DEFAULT_AVATAR
+  }
+  if (/^https?:\/\//i.test(avatar) || avatar.startsWith('/static/')) {
+    return avatar
+  }
+  return DEFAULT_AVATAR
 }
 
 const MAX_RECENT_MENUS = 12 // 最近使用菜单最多保留数量
@@ -30,20 +48,14 @@ export const useUserStore = defineStore(
 
     /** 设置用户信息 */
     const setUserInfo = (val: AuthPermissionInfo) => {
-      // console.log('设置用户信息', val)
-      // 若头像为空 则使用默认头像
-      if (!val.user.avatar) {
-        val.user.avatar = userInfoState.avatar
-      }
+      val.user.avatar = normalizeAvatar(val.user.avatar)
       userInfo.value = val.user
       roles.value = val.roles
       permissions.value = val.permissions
     }
 
     const setUserAvatar = (avatar: string) => {
-      userInfo.value.avatar = avatar
-      // console.log('设置用户头像', avatar)
-      // console.log('userInfo', userInfo.value)
+      userInfo.value.avatar = normalizeAvatar(avatar)
     }
 
     /** 删除用户信息 */

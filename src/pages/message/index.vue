@@ -115,7 +115,9 @@ async function queryList(pageNo: number, pageSize: number) {
     const data = await getMyNotifyMessagePage(params)
     pagingRef.value?.completeByTotal(data.list, data.total)
   } catch {
+    // 失败要给用户反馈，避免"空白无反馈"被当成页面打不开
     pagingRef.value?.complete(false)
+    toast.error('消息加载失败，请稍后重试')
   }
 }
 
