@@ -21,6 +21,7 @@ import {
 import { isDoubleTokenRes, isSingleTokenRes } from '@/api/types/login'
 import { isDoubleTokenMode } from '@/utils'
 import { useDictStore } from './dict'
+import { useNavStore } from './nav'
 import { useUserStore } from './user'
 
 // 初始化状态
@@ -117,6 +118,9 @@ export const useTokenStore = defineStore(
       // 获取用户信息
       const userStore = useUserStore()
       await userStore.fetchUserInfo()
+      // add by 芋艿：拉取分端导航树（工作台落地页依赖，故 await；内部已捕获异常，不会中断登录）
+      const navStore = useNavStore()
+      await navStore.loadNavTree(true)
       // add by 芋艿：加载字典数据（异步）
       const dictStore = useDictStore()
       void dictStore.loadDictCacheWithRetry()
@@ -205,6 +209,9 @@ export const useTokenStore = defineStore(
         // add by 芋艿：清空字典缓存
         const dictStore = useDictStore()
         dictStore.clearDictCache()
+        // add by 芋艿：清空分端导航树缓存
+        const navStore = useNavStore()
+        navStore.clearNav()
       }
     }
 

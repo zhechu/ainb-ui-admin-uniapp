@@ -126,7 +126,7 @@ const layoutOptions: { value: MenuLayout, label: string }[] = [ // 工作台布�
 ]
 
 const searchKeyword = ref('') // 搜索关键词
-const menuGroups = ref<MenuGroup[]>([]) // 菜单分组列表
+const menuGroups = computed<MenuGroup[]>(() => getMenuGroups()) // 菜单分组列表（响应式派生自 nav store）
 /** 常用服务菜单（从 store 中计算得出） */
 const favoriteMenus = computed<MenuItem[]>(() => {
   const keys = userStore.favoriteMenus
@@ -153,11 +153,6 @@ const filteredMenuGroups = computed(() => {
 /** 返回上一页 */
 function handleBack() {
   navigateBackPlus()
-}
-
-/** 初始化 */
-function initData() {
-  menuGroups.value = getMenuGroups()
 }
 
 /** 处理添加常用服务 */
@@ -207,10 +202,6 @@ function scrollToGroups() {
     duration: 300,
   })
 }
-
-onLoad(() => {
-  initData()
-})
 </script>
 
 <style lang="scss" scoped>

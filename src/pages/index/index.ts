@@ -1,28 +1,32 @@
+import type { NavNodeTree } from '@/api/system/navNode'
 import { useToast } from '@wot-ui/ui/components/wd-toast'
 import { ref } from 'vue'
-import { useAccess } from '@/hooks/useAccess'
 import { ONLY_PC_PAGE } from '@/router/config'
+import { useNavStore } from '@/store/nav'
 import { useUserStore } from '@/store/user'
 import { isTabBarPage } from '@/tabbar/config'
 import { parseUrl, setTabParams } from '@/utils/url'
-import menuConfig from './menu.json'
 
 /**
- * 工作台菜单数据
+ * 工作台菜单数据（服务端驱动）
+ *
+ * 数据来源为后端「分端导航树」（GET /system/nav-node/tree?terminal=app），
+ * 登录后拉取一次并持久化到 nav store（见 store/nav.ts）。服务端已按当前用户授权过滤，
+ * 前端不再做权限白名单判断，只负责把导航树映射为界面消费的三层结构。
  *
  * 菜单结构为三层：分组(group) ▸ 二级分组(subGroup) ▸ 菜单项(menu)，
- * 四种布局（小标题 / 折叠 / 纵向分类 / 横向分类）共用同一份 menu.json，仅渲染外壳不同。
+ * 四种布局（小标题 / 折叠 / 纵向分类 / 横向分类）共用同一份数据，仅渲染外壳不同。
  */
 
 /** 菜单项类型 */
 export interface MenuItem {
-  key: string // 菜单唯一标识
+  key: string // 菜单唯一标识（取导航节点 id）
   name: string // 菜单名称
   icon: string // 菜单图标（支持 @wot-ui/ui 图标名或图片路径）
   url?: string // 跳转路径
   iconColor?: string // 图标颜色（可选）
-  permission?: string // 权限标识（可选）
-  permissions?: string[] // 权限标识列表（任一匹配即展示）
+  permission?: string // 权限标识（保留字段，服务端已过滤，前端不再使用）
+  permissions?: string[] // 权限标识列表（保留字段，服务端已过滤，前端不再使用）
   onlyPc?: boolean // 仅 PC 端可用（移动端点击跳转至提示页）
 }
 
@@ -58,74 +62,74 @@ export function setMenuLayout(layout: MenuLayout) {
   uni.setStorageSync(LAYOUT_STORAGE_KEY, layout)
 }
 
-/** menu.json 的原始结构（未做权限过滤） */
-interface RawSubGroup {
-  key: string
-  name: string
-  menus: MenuItem[]
-}
-interface RawGroup {
-  key: string
-  name: string
-  subGroups: RawSubGroup[]
-}
+/** 导航节点类型：与后端 NavNodeTypeEnum 保持一致 */
+const NAV_GROUP = 1 // 分组
+const NAV_SUB_GROUP = 2 // 二级分组
+const NAV_ITEM = 3 // 导航项（叶子）
 
-const groupsData = (menuConfig as { groups: RawGroup[] }).groups
-
-/** 解析菜单项：onlyPc 落地为「仅 PC 提示页」跳转地址 */
-function resolveItem(item: MenuItem): MenuItem {
-  if (item.onlyPc) {
-    return { ...item, url: ONLY_PC_PAGE }
+/** 导航项 → 菜单项：拼接 route + query；onlyPc 落地为「仅 PC 提示页」 */
+function toItem(node: NavNodeTree): MenuItem {
+  const url = node.onlyPc
+    ? ONLY_PC_PAGE
+    : `${node.route || ''}${node.query ? `?${node.query}` : ''}`
+  return {
+    key: String(node.id),
+    name: node.name,
+    icon: node.icon || '',
+    url: url || undefined,
+    iconColor: node.iconColor || undefined,
+    onlyPc: node.onlyPc || false,
   }
-  return item
+}
+
+/** 二级分组节点 → MenuSubGroup（仅收集其下的叶子导航项） */
+function toSubGroup(node: NavNodeTree): MenuSubGroup {
+  const menus = (node.children || [])
+    .filter(child => child.nodeType === NAV_ITEM)
+    .map(toItem)
+  return { key: String(node.id), name: node.name || '', menus }
 }
 
 /**
- * 判断菜单是否有访问权限
+ * 分组节点 → MenuGroup
  *
- * 采用白名单策略：菜单必须显式配置 permission / permissions，且当前用户拥有其中任一权限，才会展示。
- * 未配置权限的菜单项一律不展示 —— 避免后台禁用菜单后，前端仍然把入口暴露出来。
- * 因此 menu.json 里新增菜单时，务必同步配置 permission。
+ * 兼容两种子结构：二级分组（SUB_GROUP）与直接挂在分组下的导航项（ITEM）。
+ * 直接子导航项统一收进一个「无标题二级分组」，保证各布局都能正常平铺渲染。
  */
-function hasMenuAccess(item: MenuItem, hasAccessByCodes: (codes: string[]) => boolean) {
-  const permissions = [
-    item.permission,
-    ...(item.permissions || []),
-  ].filter(Boolean) as string[]
-  return permissions.length > 0 && hasAccessByCodes(permissions)
+function toGroup(node: NavNodeTree): MenuGroup {
+  const children = node.children || []
+  const subGroups: MenuSubGroup[] = []
+  const directItems: MenuItem[] = []
+  for (const child of children) {
+    if (child.nodeType === NAV_SUB_GROUP) {
+      subGroups.push(toSubGroup(child))
+    } else if (child.nodeType === NAV_ITEM) {
+      directItems.push(toItem(child))
+    }
+  }
+  if (directItems.length > 0) {
+    subGroups.push({ key: `${node.id}__direct`, name: '', menus: directItems })
+  }
+  return {
+    key: String(node.id),
+    name: node.name,
+    subGroups,
+    menus: subGroups.flatMap(sub => sub.menus),
+  }
 }
 
 /**
- * 获取所有菜单分组数据（带权限过滤）
+ * 获取所有菜单分组数据
  *
- * 逐二级分组过滤掉没有权限的菜单项；二级分组为空则丢弃；整个分组无菜单则不展示。
- * 分组、二级分组、菜单的展示顺序均以 menu.json 中的排列顺序为准。
+ * 直接读取 nav store 中的导航树（服务端已按授权过滤、级联隐藏空分组、并按 sort 排序），
+ * 这里仅做「导航树 → 三层菜单结构」的映射。响应式：store 更新后依赖它的 computed 会自动刷新。
  */
 export function getMenuGroups(): MenuGroup[] {
-  const { hasAccessByCodes } = useAccess()
-  const result: MenuGroup[] = []
-  for (const group of groupsData) {
-    const subGroups: MenuSubGroup[] = []
-    for (const sub of group.subGroups) {
-      // 未配置权限、或当前用户无权限的菜单项，均不展示
-      const menus = sub.menus
-        .filter(menu => hasMenuAccess(menu, hasAccessByCodes))
-        .map(resolveItem)
-      if (menus.length > 0) {
-        subGroups.push({ key: sub.key, name: sub.name, menus })
-      }
-    }
-    if (subGroups.length === 0) {
-      continue
-    }
-    result.push({
-      key: group.key,
-      name: group.name,
-      subGroups,
-      menus: subGroups.flatMap(sub => sub.menus),
-    })
-  }
-  return result
+  const navStore = useNavStore()
+  return (navStore.navTree || [])
+    .filter(node => node.nodeType === NAV_GROUP)
+    .map(toGroup)
+    .filter(group => group.menus.length > 0)
 }
 
 /** 获取所有菜单项（扁平化） */
@@ -144,7 +148,7 @@ export interface SearchableMenuItem extends MenuItem {
   subName: string // 所属二级分组名
 }
 
-/** 获取所有可搜索菜单（带分组上下文，已做权限过滤） */
+/** 获取所有可搜索菜单（带分组上下文） */
 export function getSearchableMenus(): SearchableMenuItem[] {
   const result: SearchableMenuItem[] = []
   for (const group of getMenuGroups()) {

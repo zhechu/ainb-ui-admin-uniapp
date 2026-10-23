@@ -68,7 +68,7 @@ definePage({
 const { navigateToMenu } = useMenuNavigate()
 
 const keyword = ref('') // 搜索关键词
-const allMenus = ref<SearchableMenuItem[]>([]) // 全部可搜索菜单
+const allMenus = computed<SearchableMenuItem[]>(() => getSearchableMenus()) // 全部可搜索菜单（响应式派生自 nav store）
 
 /** 去除首尾空格的关键词 */
 const trimmedKeyword = computed(() => keyword.value.trim())
@@ -139,8 +139,4 @@ function groupLabel(menu: SearchableMenuItem): string {
 function handleBack() {
   navigateBackPlus()
 }
-
-onLoad(() => {
-  allMenus.value = getSearchableMenus()
-})
 </script>
