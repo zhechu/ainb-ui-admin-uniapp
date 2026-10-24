@@ -10,4 +10,9 @@ module.exports = {
       headerCorrespondence: ['type', 'scope', 'subject'],
     },
   },
+  // subject 是中文描述，句首经常是 README / H5 / BPM 这类英文名词；
+  // conventional 的 subject-case 会把「首字母大写」判成 sentence-case 而拒收，对中文提交没有意义。
+  rules: {
+    'subject-case': [0],
+  },
 }
