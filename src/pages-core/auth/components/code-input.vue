@@ -1,6 +1,6 @@
 <template>
   <view class="input-item">
-    <wd-icon name="lock" size="20px" color="#1890ff" />
+    <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
     <wd-input
       :model-value="modelValue"
       placeholder="请输入验证码"
@@ -11,7 +11,7 @@
       @update:model-value="$emit('update:modelValue', $event)"
     />
     <view
-      class="whitespace-nowrap border-l-1rpx border-l-[#e5e5e5] border-l-solid px-20rpx text-28rpx text-[#1890ff]"
+      class="whitespace-nowrap border-l-1rpx border-l-[#e5e5e5] border-l-solid px-20rpx text-28rpx text-primary"
       @click="handleSendCode"
     >
       <text :class="{ 'text-gray-400': countdown > 0 }">

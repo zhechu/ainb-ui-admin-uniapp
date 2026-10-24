@@ -10,11 +10,11 @@
         :disabled="Boolean(socialBindingContext) || authLoading"
         :preferred-tenant-id="socialBindingContext?.tenantId"
       />
-      <view v-if="socialBindingContext" class="mb-24rpx rounded-12rpx bg-[#e8f4ff] px-24rpx py-20rpx text-26rpx text-[#1890ff]">
+      <view v-if="socialBindingContext" class="mb-24rpx rounded-12rpx bg-[var(--brand-accent)] px-24rpx py-20rpx text-26rpx text-primary">
         三方授权成功，请使用账号密码登录完成绑定
       </view>
       <view class="input-item">
-        <wd-icon name="user" size="20px" color="#1890ff" />
+        <wd-icon name="user" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.username"
           placeholder="请输入用户名"
@@ -23,7 +23,7 @@
         />
       </view>
       <view class="input-item">
-        <wd-icon name="lock" size="20px" color="#1890ff" />
+        <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.password"
           placeholder="请输入密码"
@@ -45,16 +45,18 @@
 
       <!-- 登录按钮 -->
       <!-- <view class="mb-2 mt-2 flex justify-between">
-        <text v-if="!socialBindingContext && !authLoading" class="text-28rpx text-[#1890ff]" @click="goToSmsLogin">
+        <text v-if="!socialBindingContext && !authLoading" class="text-28rpx text-primary" @click="goToSmsLogin">
           验证码登录
         </text>
-        <text v-if="!authLoading" class="text-28rpx text-[#1890ff]" @click="goToForgetPassword">
+        <text v-if="!authLoading" class="text-28rpx text-primary" @click="goToForgetPassword">
           忘记密码？
         </text>
       </view> -->
-      <wd-button block :disabled="authLoading" :loading="loading" type="primary" @click="handleLogin">
-        登录
-      </wd-button>
+      <view class="auth-submit">
+        <wd-button block :disabled="authLoading" :loading="loading" type="primary" @click="handleLogin">
+          登录
+        </wd-button>
+      </view>
 
       <!-- 第三方登录 -->
       <!-- <SocialLoginPanel
@@ -67,8 +69,8 @@
       /> -->
       <!-- 创建账号 -->
       <!-- <view v-if="!socialBindingContext && !authLoading" class="mt-40rpx flex items-center justify-center">
-        <text class="text-28rpx text-[#666]">还没有账号？</text>
-        <text class="text-28rpx text-[#1890ff]" @click="goToRegister">
+        <text class="text-28rpx text-[var(--brand-text-secondary)]">还没有账号？</text>
+        <text class="text-28rpx text-primary" @click="goToRegister">
           创建账号
         </text>
       </view> -->

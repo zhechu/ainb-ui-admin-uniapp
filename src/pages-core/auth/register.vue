@@ -7,7 +7,7 @@
     <view class="form-container">
       <TenantPicker ref="tenantPickerRef" />
       <view class="input-item">
-        <wd-icon name="user" size="20px" color="#1890ff" />
+        <wd-icon name="user" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.username"
           placeholder="请输入用户名"
@@ -16,7 +16,7 @@
         />
       </view>
       <view class="input-item">
-        <wd-icon name="user" size="20px" color="#1890ff" />
+        <wd-icon name="user" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.nickname"
           placeholder="请输入昵称"
@@ -25,7 +25,7 @@
         />
       </view>
       <view class="input-item">
-        <wd-icon name="lock" size="20px" color="#1890ff" />
+        <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.password"
           placeholder="请输入密码"
@@ -35,7 +35,7 @@
         />
       </view>
       <view class="input-item">
-        <wd-icon name="lock" size="20px" color="#1890ff" />
+        <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.confirmPassword"
           placeholder="请确认密码"
@@ -59,11 +59,11 @@
       <view class="mb-24rpx flex items-center">
         <wd-checkbox v-model="agreePolicy" type="square" />
         <text class="text-24rpx text-[#666]">我已阅读并同意</text>
-        <text class="text-24rpx text-[#1890ff]" @click="goToUserAgreement">
+        <text class="text-24rpx text-primary" @click="goToUserAgreement">
           《用户协议》
         </text>
         <text class="text-24rpx text-[#666]">与</text>
-        <text class="text-24rpx text-[#1890ff]" @click="goToPrivacyPolicy">
+        <text class="text-24rpx text-primary" @click="goToPrivacyPolicy">
           《隐私政策》
         </text>
       </view>
@@ -81,7 +81,7 @@
       <!-- 已有账号 -->
       <view class="mt-40rpx flex items-center justify-center">
         <text class="text-28rpx text-[#666]">已有账号？</text>
-        <text class="text-28rpx text-[#1890ff]" @click="goToLogin">去登录</text>
+        <text class="text-28rpx text-primary" @click="goToLogin">去登录</text>
       </view>
     </view>
   </view>

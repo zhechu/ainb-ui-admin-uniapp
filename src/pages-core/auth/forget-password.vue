@@ -7,7 +7,7 @@
     <view class="form-container">
       <TenantPicker ref="tenantPickerRef" />
       <view class="input-item">
-        <wd-icon name="phone" size="20px" color="#1890ff" />
+        <wd-icon name="phone" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.mobile"
           placeholder="请输入手机号"
@@ -24,7 +24,7 @@
         :before-send="validateBeforeSend"
       />
       <view class="input-item">
-        <wd-icon name="lock" size="20px" color="#1890ff" />
+        <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.password"
           placeholder="请输入新密码"
@@ -34,7 +34,7 @@
         />
       </view>
       <view class="input-item">
-        <wd-icon name="lock" size="20px" color="#1890ff" />
+        <wd-icon name="lock" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.confirmPassword"
           placeholder="请确认新密码"

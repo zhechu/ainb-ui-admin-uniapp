@@ -7,7 +7,7 @@
     <view class="form-container">
       <TenantPicker ref="tenantPickerRef" />
       <view class="input-item">
-        <wd-icon name="phone" size="20px" color="#1890ff" />
+        <wd-icon name="phone" size="20px" color="var(--brand-primary)" />
         <wd-input
           v-model="formData.mobile"
           placeholder="请输入手机号"
@@ -36,10 +36,10 @@
 
       <!-- 登录按钮 -->
       <view class="mb-2 mt-2 flex justify-between">
-        <text class="text-28rpx text-[#1890ff]" @click="goToLogin">
+        <text class="text-28rpx text-primary" @click="goToLogin">
           账号登录
         </text>
-        <text class="text-28rpx text-[#1890ff]" @click="goToForgetPassword">
+        <text class="text-28rpx text-primary" @click="goToForgetPassword">
           忘记密码？
         </text>
       </view>
