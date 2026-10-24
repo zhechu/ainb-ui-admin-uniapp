@@ -51,7 +51,7 @@
         variant="plain"
         @click.stop="emit('edit')"
       >
-        编辑
+        {{ editLabel }}
       </wd-button>
       <wd-button
         v-if="canDelete"
@@ -60,7 +60,7 @@
         variant="plain"
         @click.stop="emit('delete')"
       >
-        删除
+        {{ deleteLabel }}
       </wd-button>
     </view>
   </view>
@@ -71,16 +71,22 @@ import type { CellView, RuntimeColumn } from './list-conf'
 import { computed } from 'vue'
 import { buildCardView } from './list-conf'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   /** 有编辑权限才显示编辑按钮 */
   canUpdate?: boolean
   /** 有删除权限才显示删除按钮 */
   canDelete?: boolean
   /** 列表列配置，决定卡片显示哪几项 */
   columns: RuntimeColumn[]
+  /** 按钮文案，取自设计器的按钮清单（「删除」在有些业务里叫「作废」） */
+  deleteLabel?: string
+  editLabel?: string
   /** 一行数据，key 是字段名 */
   row: Record<string, any>
-}>()
+}>(), {
+  deleteLabel: '删除',
+  editLabel: '编辑',
+})
 
 const emit = defineEmits<{
   delete: []

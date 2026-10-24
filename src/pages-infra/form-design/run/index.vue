@@ -16,6 +16,14 @@
     />
 
     <!--
+      标签页筛选：一个标签等价于一个常驻的等值条件，比每次点开搜索弹窗选一遍快。
+      web 端是列表上方的一排标签，移动端同一形态，多了能横滑。「全部」由运行时加在最前面。
+    -->
+    <wd-tabs v-if="tabItems.length > 1" v-model="activeTabIndex" shrink>
+      <wd-tab v-for="tab in tabItems" :key="tab.value" :title="tab.label" />
+    </wd-tabs>
+
+    <!--
       数据列表。:auto="false" 是必需的 ——
       列配置来自 getFormRuntimeConfig，自动查询会在配置到位前先打一次 /page，
       那一次既没有排序字段也没有查询条件，翻出来的第一页和后面几页规则不一致。
@@ -40,6 +48,8 @@
         :row="row"
         :can-update="canUpdate"
         :can-delete="canDelete"
+        :edit-label="editLabel"
+        :delete-label="deleteLabel"
         @detail="handleDetail(row)"
         @edit="handleEdit(row)"
         @delete="handleDelete(row)"
@@ -58,21 +68,28 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormRuntimeConfig } from '@/api/infra/form-design'
-import type { RuntimeColumn, RuntimeSearchItem, SearchValues } from './components/list-conf'
+import type { FormRuntimeCondition, FormRuntimeConfig } from '@/api/infra/form-design'
+import type { RuntimeColumn, RuntimeSearchItem, SearchOption, SearchValues } from './components/list-conf'
 import { useDialog } from '@wot-ui/ui/components/wd-dialog'
 import { useToast } from '@wot-ui/ui/components/wd-toast'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import {
   deleteFormRuntimeData,
   getFormRuntimeConfig,
   getFormRuntimeDataPage,
+  getFormRuntimeDistinctValues,
 } from '@/api/infra/form-design'
 import { useAccess } from '@/hooks/useAccess'
 import { decodeFields } from '@/pages-bpm/utils/form-create'
 import { navigateBackPlus } from '@/utils'
 import DataCard from './components/data-card.vue'
-import { buildConditions, parseListConf } from './components/list-conf'
+import {
+  buildConditions,
+  leftTreeToSearchItem,
+  parseListConf,
+  rowButton,
+  toolbarButton,
+} from './components/list-conf'
 import { deriveColumns } from './components/rule-adapter'
 import SearchPopup from './components/search-popup.vue'
 
@@ -100,11 +117,53 @@ const searchValues = ref<SearchValues>({}) // 当前生效的查询值
 
 const listConf = computed(() => parseListConf(config.value?.listConf))
 const formName = computed(() => config.value?.name || '在线表单')
-const searchItems = computed<RuntimeSearchItem[]>(() => listConf.value.searchItems)
 const pageSize = computed(() => listConf.value.pageSize)
 const pkField = computed(() => config.value?.pkField || 'id')
 /** 列表页的刷新事件名。新增/编辑/详情页保存后发出，避免回到列表看到的还是旧数据 */
 const reloadEvent = computed(() => `infra:form-design-run:${formCode.value}:reload`)
+
+/** 左侧树「表单字段」数据源的候选项，进页面时取一次 */
+const leftTreeOptions = ref<SearchOption[]>([])
+
+/**
+ * 搜索弹窗里的查询项 = 配置的查询项 + 左侧树
+ *
+ * 左侧树在 web 端是列表左边一棵常驻的树，移动端没有那个位置 ——
+ * 折成搜索弹窗里的一个下拉，一样是按那个字段筛，配置一个字都不丢。
+ * 同一字段已经配了查询项时不再追加：两个长得一样的下拉摆在一起，
+ * 用户只会以为其中一个坏了。
+ */
+const searchItems = computed<RuntimeSearchItem[]>(() => {
+  const configured = listConf.value.searchItems
+  const tree = listConf.value.leftTree
+  if (!tree || configured.some(item => item.field === tree.field)) {
+    return configured
+  }
+  return [...configured, leftTreeToSearchItem(tree, leftTreeOptions.value)]
+})
+
+/** 当前选中的标签下标，0 恒为「全部」 */
+const activeTabIndex = ref(0)
+
+/** 标签清单。「全部」由运行时加在最前面，配置里不存这一项（与 web 一致） */
+const tabItems = computed(() => {
+  const conf = listConf.value.tabs
+  return conf ? [{ label: '全部', value: '' }, ...conf.tabs] : []
+})
+
+/** 查询条件 = 搜索弹窗里填的 + 当前标签，两者是 AND 关系（与 web buildConditions 一致） */
+const conditions = computed<FormRuntimeCondition[]>(() => {
+  const built = buildConditions(searchItems.value, searchValues.value)
+  const conf = listConf.value.tabs
+  const value = tabItems.value[activeTabIndex.value]?.value
+  if (conf && value) {
+    built.push({ field: conf.field, operator: 'EQ', value })
+  }
+  return built
+})
+
+/** 切标签就是换查询条件，立刻重查第一页 */
+watch(activeTabIndex, () => reload())
 
 /**
  * 卡片显示哪几列
@@ -125,15 +184,24 @@ function hasRunAccess(action: string): boolean {
   return hasAccessByCodes([`infra:form-design-run:${formCode.value}:${action}`])
 }
 
-/** 列表配置里有没有放行这个行内按钮 */
-function operationAllows(button: string): boolean {
-  const operation = listConf.value.operation
-  return operation.show && operation.buttons.includes(button)
-}
-
-const canCreate = computed(() => hasRunAccess('create'))
-const canUpdate = computed(() => hasRunAccess('update') && operationAllows('edit'))
-const canDelete = computed(() => hasRunAccess('delete') && operationAllows('delete'))
+/**
+ * 新增走工具栏口径，编辑/删除走行内口径
+ *
+ * 两者的闸门不一样，与 web 端一致：`operationColumn.show` 关的是表格行末那一列，
+ * 而「新增」在工具栏上，关掉操作列不该把新增入口一起带走。
+ */
+const canCreate = computed(
+  () => hasRunAccess('create') && !!toolbarButton(listConf.value.operation, 'create'),
+)
+const canUpdate = computed(
+  () => hasRunAccess('update') && !!rowButton(listConf.value.operation, 'edit'),
+)
+const canDelete = computed(
+  () => hasRunAccess('delete') && !!rowButton(listConf.value.operation, 'delete'),
+)
+/** 按钮文案用设计器配的（「删除」在有些业务里叫「作废」），没配就用出厂文案 */
+const editLabel = computed(() => rowButton(listConf.value.operation, 'edit')?.label || '编辑')
+const deleteLabel = computed(() => rowButton(listConf.value.operation, 'delete')?.label || '删除')
 
 /** 行主键。业务主键可能是单号这类字符串，取不到时用下标兜底保证 key 唯一 */
 function rowKey(row: Record<string, any>, index: number) {
@@ -158,7 +226,34 @@ async function loadConfig() {
     return
   }
   config.value = await getFormRuntimeConfig(formCode.value)
+  // 候选项与首屏数据互不相干，不必互相等：先让列表出来，下拉的选项随后填上
+  void loadLeftTreeOptions()
   pagingRef.value?.reload()
+}
+
+/**
+ * 取左侧树「表单字段」数据源的候选项
+ *
+ * 不能从当前页数据里提取 —— 第二页才出现的值会缺，用户看到的下拉是不全的，
+ * 而 web 端那棵树是全的，同一个配置两端筛出来的结果就不一样了。
+ * 失败时留空：搜索弹窗那一格会退回文本框，还能手输值查，不至于整页打不开。
+ */
+async function loadLeftTreeOptions() {
+  const tree = listConf.value.leftTree
+  if (!tree || tree.dataSource !== 'FIELD') {
+    leftTreeOptions.value = []
+    return
+  }
+  try {
+    const values = await getFormRuntimeDistinctValues(formCode.value, tree.field)
+    // 与 web 端 loadTreeNodes 同一口径：空值不进候选，值一律转字符串再送条件
+    leftTreeOptions.value = (values || [])
+      .filter(value => value !== null && value !== undefined && value !== '')
+      .map(value => ({ label: String(value), value: String(value) }))
+  } catch (error) {
+    console.warn('[form-design] 左侧树候选项取数失败', tree.field, error)
+    leftTreeOptions.value = []
+  }
 }
 
 /** 查询列表数据 */
@@ -169,7 +264,7 @@ async function queryList(pageNo: number, size: number) {
   }
   try {
     const data = await getFormRuntimeDataPage(formCode.value, {
-      conditions: buildConditions(searchItems.value, searchValues.value),
+      conditions: conditions.value,
       pageNo,
       pageSize: size,
       sortField: listConf.value.sortField,
@@ -195,6 +290,12 @@ function handleSearch(values: SearchValues) {
 /** 重置搜索 */
 function handleReset() {
   searchValues.value = {}
+  // 标签也归位到「全部」，否则点了重置却发现列表还被标签筛着（与 web resetQuery 一致）。
+  // 归位会触发 watch 里的 reload，这里不再重复查一次
+  if (activeTabIndex.value !== 0) {
+    activeTabIndex.value = 0
+    return
+  }
   reload()
 }
 

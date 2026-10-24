@@ -80,6 +80,16 @@ export function deleteFormRuntimeData(code: string, id: number | string) {
 }
 
 /**
+ * 取某一列的去重值
+ *
+ * 左侧树的「表单字段」数据源用它：候选项是这一列的实际取值，字典里没有。
+ * 与 web 端 `RuntimeApi.getDistinctValues` 同一个端点，服务端最多返回 500 个。
+ */
+export function getFormRuntimeDistinctValues(code: string, field: string) {
+  return http.get<any[]>(`${RUNTIME_BASE}/${code}/distinct-values?field=${encodeURIComponent(field)}`)
+}
+
+/**
  * 按编码调用数据接口取候选项
  *
  * 走 code 而不是 id：该端点只要求登录态，不要求数据接口的管理权限 ——

@@ -54,7 +54,7 @@
 
         <!-- 字典下拉。IN 操作符时多选 -->
         <yd-search-picker
-          v-else-if="isMultiSelect(item)"
+          v-else-if="selectKindOf(item) === 'dict-multi'"
           v-model="form[item.field]"
           type="checkbox"
           :label="item.label"
@@ -63,12 +63,27 @@
           filterable
         />
         <yd-search-picker
-          v-else-if="isSingleSelect(item)"
+          v-else-if="selectKindOf(item) === 'dict-single'"
           v-model="form[item.field]"
           type="radio"
           :label="item.label"
           :dict-type="item.dictType"
           dict-kind="str"
+          all-option
+          filterable
+        />
+
+        <!--
+          候选项是现成一份列表的下拉：左侧树的「表单字段」数据源（该列的实际去重值）
+          与字典数据源（缩进过的树形候选项）都走这里。
+          取不到候选项时不认这个分支，落到兜底文本框 —— 点开是空的下拉比能手输的文本框更难查。
+        -->
+        <yd-search-picker
+          v-else-if="selectKindOf(item) === 'columns'"
+          v-model="form[item.field]"
+          type="radio"
+          :label="item.label"
+          :columns="item.columns"
           all-option
           filterable
         />
@@ -178,13 +193,26 @@ function isRangeItem(item: RuntimeSearchItem): boolean {
   return item.widget === 'DATE_RANGE' || item.widget === 'NUMBER_RANGE' || item.operator === 'BETWEEN'
 }
 
-/** 字典下拉。没配字典时退回文本框 —— 空下拉比文本框更难查 */
-function isSingleSelect(item: RuntimeSearchItem): boolean {
-  return item.widget === 'SELECT' && !!item.dictType && item.operator !== 'IN'
-}
+/**
+ * 下拉的候选项来源，三者互斥
+ *
+ * 有 `columns` 时优先用它：左侧树的字典源给的是一份缩进过的树形候选项，
+ * 走 dictType 那条路会让控件自己摊平成一列，层级就看不出来了。
+ * 两边都没有候选项时不认这个分支，退回兜底文本框 —— 空下拉比文本框更难查。
+ */
+type SelectKind = 'columns' | 'dict-multi' | 'dict-single' | undefined
 
-function isMultiSelect(item: RuntimeSearchItem): boolean {
-  return item.widget === 'SELECT' && !!item.dictType && item.operator === 'IN'
+function selectKindOf(item: RuntimeSearchItem): SelectKind {
+  if (item.widget !== 'SELECT') {
+    return undefined
+  }
+  if (item.columns?.length) {
+    return 'columns'
+  }
+  if (!item.dictType) {
+    return undefined
+  }
+  return item.operator === 'IN' ? 'dict-multi' : 'dict-single'
 }
 
 function rangePlaceholder(item: RuntimeSearchItem): [string, string] {
