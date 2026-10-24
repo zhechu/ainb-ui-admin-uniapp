@@ -23,41 +23,37 @@
       empty-view-text="暂无参数配置数据"
       @query="queryList"
     >
-      <view class="p-24rpx">
-        <view
-          v-for="item in list"
-          :key="item.id"
-          class="mb-24rpx overflow-hidden rounded-12rpx bg-white shadow-sm"
-          @click="handleDetail(item)"
-        >
-          <view class="p-24rpx">
-            <view class="mb-16rpx flex items-center justify-between">
-              <view class="text-32rpx text-[#333] font-semibold">
-                {{ item.name }}
-              </view>
-              <dict-tag :type="DICT_TYPE.INFRA_CONFIG_TYPE" :value="item.type" />
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx shrink-0 text-[#999]">参数分类：</text>
-              <text class="min-w-0 flex-1 truncate">{{ item.category }}</text>
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">参数键名：</text>
-              <text class="min-w-0 flex-1 truncate">{{ item.key }}</text>
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">参数键值：</text>
-              <text class="min-w-0 flex-1 truncate">{{ item.value }}</text>
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">是否可见：</text>
-              <dict-tag :type="DICT_TYPE.INFRA_BOOLEAN_STRING" :value="item.visible" />
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">创建时间：</text>
-              <text>{{ formatDateTime(item.createTime) }}</text>
-            </view>
+      <view
+        v-for="item in list"
+        :key="item.id"
+        class="yd-card"
+        @click="handleDetail(item)"
+      >
+        <view class="yd-card-title">
+          <text class="min-w-0 flex-1 truncate">{{ item.name }}</text>
+          <dict-tag class="ml-16rpx shrink-0" :type="DICT_TYPE.INFRA_CONFIG_TYPE" :value="item.type" />
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">参数分类</text>
+          <text class="yd-cell-row__value truncate">{{ item.category }}</text>
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">参数键名</text>
+          <text class="yd-cell-row__value truncate">{{ item.key }}</text>
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">参数键值</text>
+          <text class="yd-cell-row__value truncate">{{ item.value }}</text>
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">是否可见</text>
+          <view class="yd-cell-row__value">
+            <dict-tag :type="DICT_TYPE.INFRA_BOOLEAN_STRING" :value="item.visible" />
           </view>
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">创建时间</text>
+          <text class="yd-cell-row__value">{{ formatDateTime(item.createTime) }}</text>
         </view>
       </view>
     </z-paging>

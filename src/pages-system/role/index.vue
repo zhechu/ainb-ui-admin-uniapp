@@ -23,29 +23,23 @@
       empty-view-text="暂无角色数据"
       @query="queryList"
     >
-      <view class="p-24rpx">
-        <view
-          v-for="item in list"
-          :key="item.id"
-          class="mb-24rpx overflow-hidden rounded-12rpx bg-white shadow-sm"
-          @click="handleDetail(item)"
-        >
-          <view class="p-24rpx">
-            <view class="mb-16rpx flex items-center justify-between">
-              <view class="text-32rpx text-[#333] font-semibold">
-                {{ item.name }}
-              </view>
-              <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="item.status" />
-            </view>
-            <view class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">角色标识：</text>
-              <text>{{ item.code }}</text>
-            </view>
-            <view v-if="item.remark" class="mb-12rpx flex items-center text-28rpx text-[#666]">
-              <text class="mr-8rpx text-[#999]">备注：</text>
-              <text class="line-clamp-1">{{ item.remark }}</text>
-            </view>
-          </view>
+      <view
+        v-for="item in list"
+        :key="item.id"
+        class="yd-card"
+        @click="handleDetail(item)"
+      >
+        <view class="yd-card-title">
+          <text class="min-w-0 flex-1 truncate">{{ item.name }}</text>
+          <dict-tag class="ml-16rpx shrink-0" :type="DICT_TYPE.COMMON_STATUS" :value="item.status" />
+        </view>
+        <view class="yd-cell-row">
+          <text class="yd-cell-row__label">角色标识</text>
+          <text class="yd-cell-row__value truncate">{{ item.code }}</text>
+        </view>
+        <view v-if="item.remark" class="yd-cell-row">
+          <text class="yd-cell-row__label">备注</text>
+          <text class="yd-cell-row__value line-clamp-1">{{ item.remark }}</text>
         </view>
       </view>
     </z-paging>

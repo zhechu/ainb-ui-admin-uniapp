@@ -8,22 +8,24 @@
     />
 
     <!-- 详情内容 -->
-    <view>
-      <wd-cell-group border>
-        <wd-cell title="参数主键" :value="formData?.id" />
-        <wd-cell title="参数分类" :value="formData?.category" />
-        <wd-cell title="参数名称" :value="formData?.name" />
-        <wd-cell title="参数键名" :value="formData?.key" />
-        <wd-cell title="参数键值" :value="formData?.value" />
-        <wd-cell title="是否可见">
-          <dict-tag :type="DICT_TYPE.INFRA_BOOLEAN_STRING" :value="formData?.visible" />
-        </wd-cell>
-        <wd-cell title="系统内置">
-          <dict-tag :type="DICT_TYPE.INFRA_CONFIG_TYPE" :value="formData?.type" />
-        </wd-cell>
-        <wd-cell title="备注" :value="formData?.remark ?? '-'" />
-        <wd-cell title="创建时间" :value="formatDateTime(formData?.createTime) || '-'" />
-      </wd-cell-group>
+    <view class="yd-detail-body">
+      <view class="yd-card yd-card--flush">
+        <wd-cell-group border>
+          <wd-cell title="参数主键" :value="formData?.id" />
+          <wd-cell title="参数分类" :value="formData?.category" />
+          <wd-cell title="参数名称" :value="formData?.name" />
+          <wd-cell title="参数键名" :value="formData?.key" />
+          <wd-cell title="参数键值" :value="formData?.value" />
+          <wd-cell title="是否可见">
+            <dict-tag :type="DICT_TYPE.INFRA_BOOLEAN_STRING" :value="formData?.visible" />
+          </wd-cell>
+          <wd-cell title="系统内置">
+            <dict-tag :type="DICT_TYPE.INFRA_CONFIG_TYPE" :value="formData?.type" />
+          </wd-cell>
+          <wd-cell title="备注" :value="formData?.remark ?? '-'" />
+          <wd-cell title="创建时间" :value="formatDateTime(formData?.createTime) || '-'" />
+        </wd-cell-group>
+      </view>
     </view>
 
     <!-- 底部操作按钮 -->

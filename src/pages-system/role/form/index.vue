@@ -8,47 +8,49 @@
     />
 
     <!-- 表单区域 -->
-    <view>
-      <wd-form ref="formRef" :model="formData" :schema="formSchema">
-        <wd-cell-group border>
-          <wd-form-item title="角色名称" title-width="180rpx" prop="name">
-            <wd-input
-              v-model="formData.name"
-              clearable
-              placeholder="请输入角色名称"
-            />
-          </wd-form-item>
-          <wd-form-item title="角色标识" title-width="180rpx" prop="code">
-            <wd-input
-              v-model="formData.code"
-              clearable
-              placeholder="请输入角色标识"
-            />
-          </wd-form-item>
-          <wd-form-item title="显示顺序" title-width="180rpx" prop="sort" center>
-            <wd-input-number
-              v-model="formData.sort"
-              :min="0"
-            />
-          </wd-form-item>
-          <wd-form-item title="状态" title-width="180rpx" prop="status" center>
-            <wd-switch
-              v-model="formData.status"
-              :active-value="CommonStatusEnum.ENABLE"
-              :inactive-value="CommonStatusEnum.DISABLE"
-            />
-          </wd-form-item>
-          <wd-form-item title="备注" title-width="180rpx" prop="remark">
-            <wd-textarea
-              v-model="formData.remark"
-              placeholder="请输入备注"
-              :maxlength="200"
-              show-word-limit
-              clearable
-            />
-          </wd-form-item>
-        </wd-cell-group>
-      </wd-form>
+    <view class="yd-detail-body">
+      <view class="yd-card yd-card--flush">
+        <wd-form ref="formRef" :model="formData" :schema="formSchema">
+          <wd-cell-group border>
+            <wd-form-item title="角色名称" title-width="180rpx" prop="name">
+              <wd-input
+                v-model="formData.name"
+                clearable
+                placeholder="请输入角色名称"
+              />
+            </wd-form-item>
+            <wd-form-item title="角色标识" title-width="180rpx" prop="code">
+              <wd-input
+                v-model="formData.code"
+                clearable
+                placeholder="请输入角色标识"
+              />
+            </wd-form-item>
+            <wd-form-item title="显示顺序" title-width="180rpx" prop="sort" center>
+              <wd-input-number
+                v-model="formData.sort"
+                :min="0"
+              />
+            </wd-form-item>
+            <wd-form-item title="状态" title-width="180rpx" prop="status" center>
+              <wd-switch
+                v-model="formData.status"
+                :active-value="CommonStatusEnum.ENABLE"
+                :inactive-value="CommonStatusEnum.DISABLE"
+              />
+            </wd-form-item>
+            <wd-form-item title="备注" title-width="180rpx" prop="remark">
+              <wd-textarea
+                v-model="formData.remark"
+                placeholder="请输入备注"
+                :maxlength="200"
+                show-word-limit
+                clearable
+              />
+            </wd-form-item>
+          </wd-cell-group>
+        </wd-form>
+      </view>
     </view>
 
     <!-- 底部保存按钮 -->

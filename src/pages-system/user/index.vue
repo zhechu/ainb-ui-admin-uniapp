@@ -23,45 +23,39 @@
       empty-view-text="暂无用户数据"
       @query="queryList"
     >
-      <view class="p-24rpx">
-        <view
-          v-for="item in list"
-          :key="item.id"
-          class="mb-24rpx rounded-12rpx bg-white"
-          @click="handleDetail(item)"
-        >
-          <view class="relative p-24rpx">
-            <view class="absolute right-24rpx top-24rpx">
-              <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="item.status" />
+      <view
+        v-for="item in list"
+        :key="item.id"
+        class="yd-card"
+        @click="handleDetail(item)"
+      >
+        <view class="flex items-center gap-16rpx">
+          <wd-img
+            v-if="item.avatar"
+            :src="item.avatar"
+            :width="40"
+            :height="40"
+            mode="aspectFill"
+            round
+          />
+          <view
+            v-else
+            class="h-80rpx w-80rpx flex shrink-0 items-center justify-center rounded-full bg-[var(--brand-accent)] text-32rpx text-primary font-500"
+          >
+            {{ (item.nickname || item.username)?.charAt(0) }}
+          </view>
+          <view class="min-w-0 flex-1">
+            <view class="truncate text-30rpx text-[var(--brand-text-strong)] font-semibold leading-tight">
+              {{ item.nickname || item.username }}
             </view>
-            <view class="flex items-center gap-16rpx">
-              <wd-img
-                v-if="item.avatar"
-                :src="item.avatar"
-                :width="40"
-                :height="40"
-                mode="aspectFill"
-                round
-              />
-              <view
-                v-else
-                class="h-80rpx w-80rpx flex items-center justify-center rounded-full bg-[#1890ff] text-32rpx text-white"
-              >
-                {{ (item.nickname || item.username)?.charAt(0) }}
-              </view>
-              <view>
-                <view class="text-32rpx text-[#333] font-semibold">
-                  {{ item.nickname || item.username }}
-                </view>
-                <view class="text-24rpx text-[#999]">
-                  {{ item.deptName || '未分配部门' }}
-                </view>
-              </view>
-            </view>
-            <view v-if="item.loginDate" class="absolute bottom-24rpx right-24rpx text-22rpx text-[#999]">
-              登录时间：{{ formatDate(item.loginDate) }}
+            <view class="mt-6rpx truncate text-24rpx text-[var(--brand-text-muted)]">
+              {{ item.deptName || '未分配部门' }}
             </view>
           </view>
+          <dict-tag class="shrink-0" :type="DICT_TYPE.COMMON_STATUS" :value="item.status" />
+        </view>
+        <view v-if="item.loginDate" class="mt-16rpx text-24rpx text-[var(--brand-text-muted)]">
+          登录时间：{{ formatDate(item.loginDate) }}
         </view>
       </view>
     </z-paging>

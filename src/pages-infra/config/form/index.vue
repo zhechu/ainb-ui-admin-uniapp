@@ -8,57 +8,59 @@
     />
 
     <!-- 表单区域 -->
-    <view>
-      <wd-form ref="formRef" :model="formData" :schema="formSchema">
-        <wd-cell-group border>
-          <wd-form-item title="参数分类" title-width="200rpx" prop="category">
-            <wd-input
-              v-model="formData.category"
-              clearable
-              placeholder="请输入参数分类"
-            />
-          </wd-form-item>
-          <wd-form-item title="参数名称" title-width="200rpx" prop="name">
-            <wd-input
-              v-model="formData.name"
-              clearable
-              placeholder="请输入参数名称"
-            />
-          </wd-form-item>
-          <wd-form-item title="参数键名" title-width="200rpx" prop="key">
-            <wd-input
-              v-model="formData.key"
-              clearable
-              placeholder="请输入参数键名"
-            />
-          </wd-form-item>
-          <wd-form-item title="参数键值" title-width="200rpx" prop="value">
-            <wd-input
-              v-model="formData.value"
-              clearable
-              placeholder="请输入参数键值"
-            />
-          </wd-form-item>
-          <wd-form-item title="是否可见" title-width="200rpx" prop="visible" center>
-            <wd-radio-group v-model="formData.visible" type="button">
-              <wd-radio
-                v-for="dict in getBoolDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING)"
-                :key="`${dict.value}`"
-                :value="dict.value"
-              >
-                {{ dict.label }}
-              </wd-radio>
-            </wd-radio-group>
-          </wd-form-item>
-          <wd-form-item title="备注" title-width="200rpx" prop="remark">
-            <wd-textarea
-              v-model="formData.remark"
-              clearable
-              placeholder="请输入备注"
-            />
-          </wd-form-item>
-        </wd-cell-group>
-      </wd-form>
+    <view class="yd-detail-body">
+      <view class="yd-card yd-card--flush">
+        <wd-form ref="formRef" :model="formData" :schema="formSchema">
+          <wd-cell-group border>
+            <wd-form-item title="参数分类" title-width="180rpx" prop="category">
+              <wd-input
+                v-model="formData.category"
+                clearable
+                placeholder="请输入参数分类"
+              />
+            </wd-form-item>
+            <wd-form-item title="参数名称" title-width="180rpx" prop="name">
+              <wd-input
+                v-model="formData.name"
+                clearable
+                placeholder="请输入参数名称"
+              />
+            </wd-form-item>
+            <wd-form-item title="参数键名" title-width="180rpx" prop="key">
+              <wd-input
+                v-model="formData.key"
+                clearable
+                placeholder="请输入参数键名"
+              />
+            </wd-form-item>
+            <wd-form-item title="参数键值" title-width="180rpx" prop="value">
+              <wd-input
+                v-model="formData.value"
+                clearable
+                placeholder="请输入参数键值"
+              />
+            </wd-form-item>
+            <wd-form-item title="是否可见" title-width="180rpx" prop="visible" center>
+              <wd-radio-group v-model="formData.visible" type="button">
+                <wd-radio
+                  v-for="dict in getBoolDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING)"
+                  :key="`${dict.value}`"
+                  :value="dict.value"
+                >
+                  {{ dict.label }}
+                </wd-radio>
+              </wd-radio-group>
+            </wd-form-item>
+            <wd-form-item title="备注" title-width="180rpx" prop="remark">
+              <wd-textarea
+                v-model="formData.remark"
+                clearable
+                placeholder="请输入备注"
+              />
+            </wd-form-item>
+          </wd-cell-group>
+        </wd-form>
+      </view>
     </view>
 
     <!-- 底部保存按钮 -->

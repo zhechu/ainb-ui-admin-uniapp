@@ -8,28 +8,30 @@
     />
 
     <!-- 详情内容 -->
-    <view>
-      <wd-cell-group border>
-        <wd-cell title="头像">
-          <wd-img v-if="formData?.avatar" :src="formData.avatar" width="80rpx" height="80rpx" mode="aspectFill" round enable-preview />
-          <text v-else>-</text>
-        </wd-cell>
-        <wd-cell title="用户昵称" :value="formData?.nickname || '-'" />
-        <wd-cell title="用户账号" :value="formData?.username || '-'" />
-        <wd-cell title="手机号码" :value="formData?.mobile || '-'" />
-        <wd-cell title="邮箱" :value="formData?.email || '-'" />
-        <wd-cell title="部门" :value="formData?.deptName || '-'" />
-        <wd-cell title="性别">
-          <dict-tag :type="DICT_TYPE.SYSTEM_USER_SEX" :value="formData?.sex" />
-        </wd-cell>
-        <wd-cell title="状态">
-          <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="formData?.status" />
-        </wd-cell>
-        <wd-cell title="备注" :value="formData?.remark || '-'" />
-        <wd-cell title="最后登录 IP" :value="formData?.loginIp || '-'" />
-        <wd-cell title="最后登录时间" :value="formatDateTime(formData?.loginDate) || '-'" />
-        <wd-cell title="创建时间" :value="formatDateTime(formData?.createTime) || '-'" />
-      </wd-cell-group>
+    <view class="yd-detail-body">
+      <view class="yd-card yd-card--flush">
+        <wd-cell-group border>
+          <wd-cell title="头像">
+            <wd-img v-if="formData?.avatar" :src="formData.avatar" width="80rpx" height="80rpx" mode="aspectFill" round enable-preview />
+            <text v-else>-</text>
+          </wd-cell>
+          <wd-cell title="用户昵称" :value="formData?.nickname || '-'" />
+          <wd-cell title="用户账号" :value="formData?.username || '-'" />
+          <wd-cell title="手机号码" :value="formData?.mobile || '-'" />
+          <wd-cell title="邮箱" :value="formData?.email || '-'" />
+          <wd-cell title="部门" :value="formData?.deptName || '-'" />
+          <wd-cell title="性别">
+            <dict-tag :type="DICT_TYPE.SYSTEM_USER_SEX" :value="formData?.sex" />
+          </wd-cell>
+          <wd-cell title="状态">
+            <dict-tag :type="DICT_TYPE.COMMON_STATUS" :value="formData?.status" />
+          </wd-cell>
+          <wd-cell title="备注" :value="formData?.remark || '-'" />
+          <wd-cell title="最后登录 IP" :value="formData?.loginIp || '-'" />
+          <wd-cell title="最后登录时间" :value="formatDateTime(formData?.loginDate) || '-'" />
+          <wd-cell title="创建时间" :value="formatDateTime(formData?.createTime) || '-'" />
+        </wd-cell-group>
+      </view>
     </view>
 
     <!-- 底部操作按钮 -->

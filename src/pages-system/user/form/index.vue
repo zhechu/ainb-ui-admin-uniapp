@@ -8,75 +8,77 @@
     />
 
     <!-- 表单区域 -->
-    <view>
-      <wd-form ref="formRef" :model="formData" :schema="formSchema">
-        <wd-cell-group border>
-          <wd-form-item title="用户名称" title-width="180rpx" prop="username">
-            <wd-input
-              v-model="formData.username"
-              clearable
-              placeholder="请输入用户名称"
+    <view class="yd-detail-body">
+      <view class="yd-card yd-card--flush">
+        <wd-form ref="formRef" :model="formData" :schema="formSchema">
+          <wd-cell-group border>
+            <wd-form-item title="用户名称" title-width="180rpx" prop="username">
+              <wd-input
+                v-model="formData.username"
+                clearable
+                placeholder="请输入用户名称"
+              />
+            </wd-form-item>
+            <wd-form-item v-if="!props.id" title="用户密码" title-width="180rpx" prop="password">
+              <wd-input
+                v-model="formData.password"
+                show-password
+                clearable
+                placeholder="请输入用户密码"
+              />
+            </wd-form-item>
+            <wd-form-item title="用户昵称" title-width="180rpx" prop="nickname">
+              <wd-input
+                v-model="formData.nickname"
+                clearable
+                placeholder="请输入用户昵称"
+              />
+            </wd-form-item>
+            <DeptFormPicker
+              v-model="formData.deptId"
+              label="归属部门"
             />
-          </wd-form-item>
-          <wd-form-item v-if="!props.id" title="用户密码" title-width="180rpx" prop="password">
-            <wd-input
-              v-model="formData.password"
-              show-password
-              clearable
-              placeholder="请输入用户密码"
-            />
-          </wd-form-item>
-          <wd-form-item title="用户昵称" title-width="180rpx" prop="nickname">
-            <wd-input
-              v-model="formData.nickname"
-              clearable
-              placeholder="请输入用户昵称"
-            />
-          </wd-form-item>
-          <DeptFormPicker
-            v-model="formData.deptId"
-            label="归属部门"
-          />
-          <PostFormPicker v-model="formData.postIds" />
-          <wd-form-item title="邮箱" title-width="180rpx" prop="email">
-            <wd-input
-              v-model="formData.email"
-              clearable
-              placeholder="请输入邮箱"
-            />
-          </wd-form-item>
-          <wd-form-item title="手机号码" title-width="180rpx" prop="mobile">
-            <wd-input
-              v-model="formData.mobile"
-              clearable
-              placeholder="请输入手机号码"
-            />
-          </wd-form-item>
-          <wd-form-item title="性别" title-width="180rpx" center prop="sex">
-            <wd-radio-group v-model="formData.sex" type="button">
-              <wd-radio v-for="dict in getIntDictOptions(DICT_TYPE.SYSTEM_USER_SEX)" :key="dict.value" :value="dict.value">
-                {{ dict.label }}
-              </wd-radio>
-            </wd-radio-group>
-          </wd-form-item>
-          <wd-form-item title="状态" title-width="180rpx" center prop="status">
-            <wd-switch
-              v-model="formData.status"
-              :active-value="CommonStatusEnum.ENABLE"
-              :inactive-value="CommonStatusEnum.DISABLE"
-            />
-          </wd-form-item>
-          <wd-form-item title="备注" title-width="180rpx">
-            <wd-textarea
-              v-model="formData.remark"
-              placeholder="请输入备注"
-              :maxlength="200"
-              show-word-limit
-              clearable
-            />
-          </wd-form-item>
-        </wd-cell-group>
-      </wd-form>
+            <PostFormPicker v-model="formData.postIds" />
+            <wd-form-item title="邮箱" title-width="180rpx" prop="email">
+              <wd-input
+                v-model="formData.email"
+                clearable
+                placeholder="请输入邮箱"
+              />
+            </wd-form-item>
+            <wd-form-item title="手机号码" title-width="180rpx" prop="mobile">
+              <wd-input
+                v-model="formData.mobile"
+                clearable
+                placeholder="请输入手机号码"
+              />
+            </wd-form-item>
+            <wd-form-item title="性别" title-width="180rpx" center prop="sex">
+              <wd-radio-group v-model="formData.sex" type="button">
+                <wd-radio v-for="dict in getIntDictOptions(DICT_TYPE.SYSTEM_USER_SEX)" :key="dict.value" :value="dict.value">
+                  {{ dict.label }}
+                </wd-radio>
+              </wd-radio-group>
+            </wd-form-item>
+            <wd-form-item title="状态" title-width="180rpx" center prop="status">
+              <wd-switch
+                v-model="formData.status"
+                :active-value="CommonStatusEnum.ENABLE"
+                :inactive-value="CommonStatusEnum.DISABLE"
+              />
+            </wd-form-item>
+            <wd-form-item title="备注" title-width="180rpx">
+              <wd-textarea
+                v-model="formData.remark"
+                placeholder="请输入备注"
+                :maxlength="200"
+                show-word-limit
+                clearable
+              />
+            </wd-form-item>
+          </wd-cell-group>
+        </wd-form>
+      </view>
     </view>
 
     <!-- 底部保存按钮 -->
