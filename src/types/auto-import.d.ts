@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const collectDictSubtreeValues: typeof import('../hooks/useDict')['collectDictSubtreeValues']
   const computed: typeof import('vue')['computed']
   const createApp: typeof import('vue')['createApp']
   const customRef: typeof import('vue')['customRef']
@@ -20,6 +21,8 @@ declare global {
   const getDictLabel: typeof import('../hooks/useDict')['getDictLabel']
   const getDictObj: typeof import('../hooks/useDict')['getDictObj']
   const getDictOptions: typeof import('../hooks/useDict')['getDictOptions']
+  const getDictTreeData: typeof import('../hooks/useDict')['getDictTreeData']
+  const getDictTreeOptions: typeof import('../hooks/useDict')['getDictTreeOptions']
   const getIntDictOptions: typeof import('../hooks/useDict')['getIntDictOptions']
   const getStrDictOptions: typeof import('../hooks/useDict')['getStrDictOptions']
   const h: typeof import('vue')['h']
@@ -106,7 +109,7 @@ declare global {
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
-  export type { DictDataType, NumberDictDataType, StringDictDataType } from '../hooks/useDict'
+  export type { DictDataType, NumberDictDataType, StringDictDataType, DictTreeOption, DictTreeData } from '../hooks/useDict'
   import('../hooks/useDict')
 }
 
@@ -116,6 +119,7 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly collectDictSubtreeValues: UnwrapRef<typeof import('../hooks/useDict')['collectDictSubtreeValues']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly createApp: UnwrapRef<typeof import('vue')['createApp']>
     readonly customRef: UnwrapRef<typeof import('vue')['customRef']>
@@ -129,6 +133,8 @@ declare module 'vue' {
     readonly getDictLabel: UnwrapRef<typeof import('../hooks/useDict')['getDictLabel']>
     readonly getDictObj: UnwrapRef<typeof import('../hooks/useDict')['getDictObj']>
     readonly getDictOptions: UnwrapRef<typeof import('../hooks/useDict')['getDictOptions']>
+    readonly getDictTreeData: UnwrapRef<typeof import('../hooks/useDict')['getDictTreeData']>
+    readonly getDictTreeOptions: UnwrapRef<typeof import('../hooks/useDict')['getDictTreeOptions']>
     readonly getIntDictOptions: UnwrapRef<typeof import('../hooks/useDict')['getIntDictOptions']>
     readonly getStrDictOptions: UnwrapRef<typeof import('../hooks/useDict')['getStrDictOptions']>
     readonly h: UnwrapRef<typeof import('vue')['h']>

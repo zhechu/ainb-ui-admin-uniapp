@@ -4,6 +4,8 @@ import { http } from '@/http/http'
 /** 字典数据 */
 export interface DictData {
   id?: number
+  /** 父节点编号，0 表示根。服务端 simple-list 一直有返回，之前前端没接住 */
+  parentId?: number
   dictType: string
   label: string
   value: string

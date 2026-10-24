@@ -1,7 +1,8 @@
+import type { DictTreeData } from '@/hooks/useDict'
 import type { FormCreateRule } from '@/pages-bpm/utils/form-create'
 import type { RuntimeColumn } from './list-conf'
 import { fetchDataInterfaceOptions } from '@/api/infra/form-design'
-import { getDictOptions } from '@/hooks/useDict'
+import { getDictTreeData, getDictTreeOptions } from '@/hooks/useDict'
 import { formatCellText } from './list-conf'
 
 /**
@@ -21,6 +22,7 @@ import { formatCellText } from './list-conf'
  *    原样丢进去会落到「暂不支持」分支。`fcEditor` 同理，渲染器的 richText 组只认 Editor/editor。
  * 2. **解析字典数据源**：`props.dictSource` 是 web 端「选项来源＝数据字典」的声明，
  *    全移动端没有任何代码读它（`grep dictSource` 零命中），不解析的话下拉框是空的。
+ *    字典是树时按控件形态给树或给缩进列表，见 `applyDictSource`。
  * 3. **解析远程数据源**：`RemotePicker` 在移动端没有对应组件，这里按它的数据源类型
  *    预取选项后降级成普通下拉。
  * 4. **兜底不支持的控件**：编辑态整条剔除，只读态降级成纯文本。
@@ -77,6 +79,13 @@ const TYPE_REWRITES: Record<string, string> = {
 /** 字典数据源要写到规则的哪个位置，与 web 端 `OPTION_SOURCE_TARGETS` 一一对应 */
 type DictTarget = 'propsData' | 'propsOptions' | 'ruleOptions'
 
+/** 树形候选项，值类型按 `dictSource.valueType` 换算过 */
+interface TreeOption {
+  label: string
+  value: any
+  children?: TreeOption[]
+}
+
 function dictTargetOf(type?: string): DictTarget | undefined {
   switch (type) {
     case 'cascader':
@@ -98,17 +107,6 @@ function dictTargetOf(type?: string): DictTarget | undefined {
     default:
       return undefined
   }
-}
-
-/** 字典值类型 → 移动端 `getDictOptions` 的 valueType 参数 */
-function toMobileValueType(valueType?: string): 'boolean' | 'number' | 'string' {
-  if (valueType === 'int') {
-    return 'number'
-  }
-  if (valueType === 'bool') {
-    return 'boolean'
-  }
-  return 'string'
 }
 
 /**
@@ -215,10 +213,15 @@ function isMultipleRule(rule: FormCreateRule): boolean {
 /**
  * 解析 `props.dictSource`
  *
- * ⚠️ 移动端字典缓存（`store/dict.ts`）只存 label/value/colorType/cssClass，没有 parentId，
- * 所以树形字典在移动端只能摊平成一列根节点，`rootValue`（只取子树）与 `flatMode`
- * （path/indent/leaf 三种展开方式）也无从计算。web 端能建树是因为它的字典项带 parentId。
- * 摊平是如实的退化：层级信息在移动端这份缓存里根本不存在，编不出来。
+ * 字典本身可以是树（区域：华东 ▸ 上海/江苏/浙江），候选项给什么形态要看控件吃什么：
+ * 树选择、级联吃得下 `children`，就给原样的树，展开就能看层级；
+ * 下拉、单选、多选只有一列，给树等于把层级压扁 —— 那种场合用缩进画出来，
+ * 否则父节点和子节点并排着一模一样，填的人只会以为配错了。
+ * 平铺字典两条路的结果完全一致。
+ *
+ * ⚠️ 仍未实现的是 web 端那两个开关：`rootValue`（只取某个子树）与
+ * `flatMode`（path/indent/leaf 三种摊平方式）。这里固定用 indent，
+ * 且总是给全部字典项 —— 配了这两项的表单在移动端会比 web 端多几个候选项。
  */
 function applyDictSource(rule: FormCreateRule) {
   const source = rule.props?.dictSource
@@ -229,18 +232,42 @@ function applyDictSource(rule: FormCreateRule) {
   if (!target) {
     return
   }
-  const options = getDictOptions(source.dictType, toMobileValueType(source.valueType)).map(
-    item => ({ label: item.label, value: item.value }),
-  )
+  const valueType = source.valueType
   if (target === 'ruleOptions') {
-    rule.options = options
+    rule.options = getDictTreeOptions(source.dictType).map(item => ({
+      label: item.label,
+      value: convertDictValue(item.value, valueType),
+    }))
     return
   }
+  const data = toTreeData(getDictTreeData(source.dictType), valueType)
   if (target === 'propsOptions') {
-    rule.props = { ...rule.props, options }
+    rule.props = { ...rule.props, options: data }
     return
   }
-  rule.props = { ...rule.props, data: options }
+  rule.props = { ...rule.props, data }
+}
+
+/** 递归换算树上每一层的值类型 */
+function toTreeData(nodes: DictTreeData[], valueType?: string): TreeOption[] {
+  return nodes.map((node) => {
+    const data: TreeOption = { label: node.label, value: convertDictValue(node.value, valueType) }
+    if (node.children && node.children.length > 0) {
+      data.children = toTreeData(node.children, valueType)
+    }
+    return data
+  })
+}
+
+/** 字典值类型 → 表单里的值类型，与 `getDictOptions` 的 valueType 参数同一套换算 */
+function convertDictValue(value: string, valueType?: string): boolean | number | string {
+  if (valueType === 'int') {
+    return Number.parseInt(value)
+  }
+  if (valueType === 'bool') {
+    return value === 'true'
+  }
+  return value
 }
 
 /**
@@ -260,7 +287,7 @@ async function toSelectWithRemoteOptions(rule: FormCreateRule) {
   if (sourceType === 'static') {
     options = toOptions(rule.props?.staticOptions, labelField, valueField)
   } else if (sourceType === 'dict') {
-    options = getDictOptions(String(rule.props?.dictType || '')).map(item => ({
+    options = getDictTreeOptions(String(rule.props?.dictType || '')).map(item => ({
       label: item.label,
       value: item.value,
     }))

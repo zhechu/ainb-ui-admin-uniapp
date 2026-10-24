@@ -11,6 +11,10 @@ export interface DictItem {
   value: string
   colorType?: string
   cssClass?: string
+  /** 字典数据编号，与 parentId 配对才能建出树 */
+  id?: number
+  /** 父节点编号，0 表示根。树形字典（如区域）靠它算「自身 + 全部后代」 */
+  parentId?: number
 }
 
 /** 字典缓存类型 */
@@ -23,6 +27,16 @@ export const useDictStore = defineStore(
   () => {
     const dictCache = ref<DictCache>({}) // 字典缓存
     const isLoaded = computed(() => Object.keys(dictCache.value).length > 0) // 是否已加载（基于 dictCache 非空判断）
+    /**
+     * 缓存里有没有层级信息
+     *
+     * parentId 是这次才存进来的，而 persist 会让老缓存一直活下去 ——
+     * 不判一下，树形字典在升级后永远是摊平的，且看不出原因。缺层级就重取一次。
+     * （服务端 simple-list 一直都返回 parentId，正常情况下重取一次就够了。）
+     */
+    const hasHierarchy = computed(() =>
+      Object.values(dictCache.value).some(items => items.some(item => item.parentId !== undefined)),
+    )
 
     /** 设置字典缓存 */
     const setDictCache = (dicts: DictCache) => {
@@ -31,7 +45,7 @@ export const useDictStore = defineStore(
 
     /** 通过 API 加载字典数据 */
     const loadDictCache = async (force = false) => {
-      if (!force && isLoaded.value) {
+      if (!force && isLoaded.value && hasHierarchy.value) {
         return
       }
       if (loadingPromise) {
@@ -46,7 +60,9 @@ export const useDictStore = defineStore(
             dictCacheData[dict.dictType] = []
           }
           dictCacheData[dict.dictType].push({
+            id: dict.id,
             label: dict.label,
+            parentId: dict.parentId,
             value: dict.value,
             colorType: dict.colorType,
             cssClass: dict.cssClass,
