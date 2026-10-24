@@ -37,7 +37,7 @@
             <wd-img v-if="item.headImageUrl" :src="item.headImageUrl" width="80rpx" height="80rpx" mode="aspectFill" round />
             <view
               v-else
-              class="h-80rpx w-80rpx flex items-center justify-center rounded-full bg-[#1890ff] text-32rpx text-white"
+              class="h-80rpx w-80rpx flex items-center justify-center rounded-full bg-primary text-32rpx text-white"
             >
               {{ (item.nickname || '粉')?.charAt(0) }}
             </view>

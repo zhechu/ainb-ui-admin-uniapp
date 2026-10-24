@@ -25,7 +25,7 @@
           <!-- 第一行：名称、状态标签 -->
           <view class="flex items-center justify-between">
             <view class="flex items-center">
-              <view class="mr-16rpx h-48rpx w-48rpx flex items-center justify-center rounded-8rpx bg-[#1890ff]">
+              <view class="mr-16rpx h-48rpx w-48rpx flex items-center justify-center rounded-8rpx bg-primary">
                 <wd-icon name="folder" size="20px" color="#fff" />
               </view>
               <view class="text-32rpx text-[#333] font-semibold">
@@ -44,8 +44,8 @@
               class="flex items-center"
               @click.stop="handleEnterChildren(item)"
             >
-              <text class="text-24rpx text-[#1890ff]">子部门 ({{ item.children.length }})</text>
-              <wd-icon name="arrow-right" size="12px" color="#1890ff" />
+              <text class="text-24rpx text-primary">子部门 ({{ item.children.length }})</text>
+              <wd-icon name="arrow-right" size="12px" color="var(--brand-primary)" />
             </view>
           </view>
         </view>

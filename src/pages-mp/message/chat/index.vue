@@ -66,7 +66,7 @@
           >
             <view
               class="h-64rpx w-64rpx flex shrink-0 items-center justify-center rounded-full text-24rpx text-white"
-              :class="item.sendFrom === 2 ? 'bg-[#1890ff]' : 'bg-[#07c160]'"
+              :class="item.sendFrom === 2 ? 'bg-primary' : 'bg-[#07c160]'"
             >
               {{ item.sendFrom === 2 ? '号' : '粉' }}
             </view>

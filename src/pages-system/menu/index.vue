@@ -44,8 +44,8 @@
               class="flex items-center"
               @click.stop="handleEnterChildren(item)"
             >
-              <text class="text-24rpx text-[#1890ff]">子菜单 ({{ item.children.length }})</text>
-              <wd-icon name="arrow-right" size="12px" color="#1890ff" />
+              <text class="text-24rpx text-primary">子菜单 ({{ item.children.length }})</text>
+              <wd-icon name="arrow-right" size="12px" color="var(--brand-primary)" />
             </view>
           </view>
         </view>
@@ -127,13 +127,13 @@ function getTypeIcon(type: number): string {
 function getTypeIconBg(type: number): string {
   switch (type) {
     case SystemMenuTypeEnum.DIR:
-      return 'bg-[#1890ff]'
+      return 'bg-primary'
     case SystemMenuTypeEnum.MENU:
       return 'bg-[#52c41a]'
     case SystemMenuTypeEnum.BUTTON:
       return 'bg-[#faad14]'
     default:
-      return 'bg-[#1890ff]'
+      return 'bg-primary'
   }
 }
 

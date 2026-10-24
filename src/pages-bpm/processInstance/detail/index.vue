@@ -25,7 +25,7 @@
         </view>
         <!-- 发起人信息 -->
         <view class="flex items-center">
-          <view class="mr-12rpx h-64rpx w-64rpx flex items-center justify-center rounded-full bg-[#1890ff] text-white">
+          <view class="mr-12rpx h-64rpx w-64rpx flex items-center justify-center rounded-full bg-primary text-white">
             {{ processInstance?.startUser?.nickname?.[0] || '?' }}
           </view>
           <view>

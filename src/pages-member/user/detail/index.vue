@@ -35,7 +35,7 @@
           />
           <view
             v-else
-            class="h-112rpx w-112rpx flex items-center justify-center rounded-full bg-[#1890ff] text-40rpx text-white"
+            class="h-112rpx w-112rpx flex items-center justify-center rounded-full bg-primary text-40rpx text-white"
           >
             {{ (formData?.nickname || formData?.mobile || '会').charAt(0) }}
           </view>

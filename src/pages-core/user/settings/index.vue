@@ -26,7 +26,7 @@
           @click="handleShowVersion"
         >
           <template #icon>
-            <wd-icon name="exclamation-circle" size="20px" color="#1890ff" class="mr-16rpx" />
+            <wd-icon name="exclamation-circle" size="20px" color="var(--brand-primary)" class="mr-16rpx" />
           </template>
         </wd-cell>
         <wd-cell
@@ -45,9 +45,9 @@
     <!-- 底部协议和版权 -->
     <view class="mt-80rpx flex flex-col items-center">
       <view class="mb-40rpx flex items-center text-26rpx">
-        <text class="text-[#1890ff]" @click="handleGoAgreement">《用户协议》</text>
+        <text class="text-primary" @click="handleGoAgreement">《用户协议》</text>
         <text class="text-gray-500">与</text>
-        <text class="text-[#1890ff]" @click="handleGoPrivacy">《隐私协议》</text>
+        <text class="text-primary" @click="handleGoPrivacy">《隐私协议》</text>
       </view>
       <text class="mb-10rpx text-24rpx text-gray-400">
         Copyright © 2026 iocoder.cn All Rights Reserved.

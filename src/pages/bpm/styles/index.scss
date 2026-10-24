@@ -87,7 +87,7 @@
   height: 48rpx;
   margin-right: 12rpx;
   border-radius: 50%;
-  background-color: #1890ff;
+  background-color: var(--brand-primary);
   font-size: 24rpx;
   color: #fff;
 }
@@ -125,7 +125,7 @@
   padding: 24rpx 0;
   font-size: 28rpx;
   font-weight: 500;
-  color: #1890ff;
+  color: var(--brand-primary);
 
   &:not(:last-child) {
     border-right: 1rpx solid #f0f0f0;

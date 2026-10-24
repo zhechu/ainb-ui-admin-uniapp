@@ -83,7 +83,7 @@
             :key="user.id || userIndex"
             class="mb-8rpx mr-16rpx flex items-center rounded-32rpx bg-[#f5f5f5] pr-16rpx"
           >
-            <view class="mr-8rpx h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-[#1890ff] text-24rpx text-white">
+            <view class="mr-8rpx h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-primary text-24rpx text-white">
               <wd-img
                 v-if="shouldShowAvatar(user)"
                 :src="user.avatar"
@@ -112,7 +112,7 @@
             <!-- 审批人信息 -->
             <view v-if="task.assigneeUser || task.ownerUser" class="mb-8rpx flex items-center">
               <view class="relative mr-8rpx h-48rpx w-48rpx">
-                <view class="h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-[#1890ff] text-24rpx text-white">
+                <view class="h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-primary text-24rpx text-white">
                   <wd-img
                     v-if="shouldShowAvatar(getTaskUser(task))"
                     :src="getTaskUser(task)?.avatar"
@@ -221,7 +221,7 @@
             class="mb-8rpx flex items-center"
           >
             <view class="relative mr-8rpx h-48rpx w-48rpx">
-              <view class="h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-[#1890ff] text-24rpx text-white">
+              <view class="h-48rpx w-48rpx flex items-center justify-center overflow-hidden rounded-full bg-primary text-24rpx text-white">
                 <wd-img
                   v-if="shouldShowAvatar(user)"
                   :src="user.avatar"

@@ -5,7 +5,7 @@
         <template v-for="(item, index) in breadcrumbItems" :key="item.id">
           <text v-if="index > 0" class="mx-8rpx text-[#999]">/</text>
           <text
-            :class="index === breadcrumbItems.length - 1 ? 'text-[#333]' : 'text-[#1890ff]'"
+            :class="index === breadcrumbItems.length - 1 ? 'text-[#333]' : 'text-primary'"
             @click="handleClick(index)"
           >
             {{ item.name }}

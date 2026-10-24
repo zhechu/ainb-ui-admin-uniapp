@@ -43,8 +43,8 @@
           <!-- 属性值入口 -->
           <view class="mt-16rpx flex items-center justify-end border-t border-[#f0f0f0] pt-16rpx">
             <view class="flex items-center" @click.stop="handleViewValues(item)">
-              <text class="text-26rpx text-[#1890ff]">属性值</text>
-              <wd-icon name="arrow-right" size="12px" color="#1890ff" />
+              <text class="text-26rpx text-primary">属性值</text>
+              <wd-icon name="arrow-right" size="12px" color="var(--brand-primary)" />
             </view>
           </view>
         </view>

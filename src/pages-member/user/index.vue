@@ -49,7 +49,7 @@
                 <view
                   v-if="selectMode"
                   class="h-44rpx w-44rpx flex shrink-0 items-center justify-center border border-[#dcdfe6] rounded-full text-24rpx"
-                  :class="isSelected(item) ? 'border-[#1890ff] bg-[#1890ff] text-white' : 'bg-white text-transparent'"
+                  :class="isSelected(item) ? 'border-primary bg-primary text-white' : 'bg-white text-transparent'"
                   @click.stop="toggleSelect(item)"
                 >
                   ✓
@@ -64,7 +64,7 @@
                 />
                 <view
                   v-else
-                  class="h-88rpx w-88rpx flex shrink-0 items-center justify-center rounded-full bg-[#1890ff] text-34rpx text-white"
+                  class="h-88rpx w-88rpx flex shrink-0 items-center justify-center rounded-full bg-primary text-34rpx text-white"
                 >
                   {{ (item.nickname || item.mobile || '会').charAt(0) }}
                 </view>

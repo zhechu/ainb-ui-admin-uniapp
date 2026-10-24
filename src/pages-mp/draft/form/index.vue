@@ -22,19 +22,19 @@
           v-for="(article, index) in articles"
           :key="index"
           class="border rounded-8rpx px-20rpx py-16rpx"
-          :class="activeIndex === index ? 'border-[#1890ff] bg-[#f0f7ff]' : 'border-[#eee] bg-white'"
+          :class="activeIndex === index ? 'border-primary bg-[#f0f7ff]' : 'border-[#eee] bg-white'"
           @click="handleSwitchArticle(index)"
         >
           <view class="flex items-center gap-16rpx">
             <view
               class="h-40rpx w-40rpx flex shrink-0 items-center justify-center rounded-full text-24rpx"
-              :class="activeIndex === index ? 'bg-[#1890ff] text-white' : 'bg-[#f5f5f5] text-[#666]'"
+              :class="activeIndex === index ? 'bg-primary text-white' : 'bg-[#f5f5f5] text-[#666]'"
             >
               {{ index + 1 }}
             </view>
             <view
               class="min-w-0 flex-1 truncate text-26rpx"
-              :class="activeIndex === index ? 'text-[#1890ff] font-medium' : 'text-[#333]'"
+              :class="activeIndex === index ? 'text-primary font-medium' : 'text-[#333]'"
             >
               {{ article.title || '未命名图文' }}
             </view>

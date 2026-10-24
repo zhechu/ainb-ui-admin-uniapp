@@ -43,7 +43,7 @@
               <dict-tag :type="DICT_TYPE.BPM_TASK_STATUS" :value="item.status" />
             </view>
             <view class="mb-12rpx flex items-center">
-              <view class="mr-8rpx h-48rpx w-48rpx flex items-center justify-center rounded-full bg-[#1890ff] text-20rpx text-white">
+              <view class="mr-8rpx h-48rpx w-48rpx flex items-center justify-center rounded-full bg-primary text-20rpx text-white">
                 {{ item.processInstance?.startUser?.nickname?.[0] || '?' }}
               </view>
               <view class="flex-1">

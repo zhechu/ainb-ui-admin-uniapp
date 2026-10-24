@@ -5,12 +5,12 @@
     <view class="w-full flex items-center">
       <!-- 左侧操作按钮 -->
       <view v-for="(action, idx) in leftOperations" :key="idx" class="mr-32rpx w-60rpx flex flex-col items-center" @click="handleOperation(action.operationType)">
-        <wd-icon :name="action.iconName" size="40rpx" color="#1890ff" />
+        <wd-icon :name="action.iconName" size="40rpx" color="var(--brand-primary)" />
         <text class="mt-4rpx text-22rpx text-[#333]">{{ action.displayName }}</text>
       </view>
       <!-- 更多操作按钮 -->
       <view v-if="moreOperations.length > 0" class="mr-32rpx w-60rpx flex flex-col items-center" @click="handleShowMore">
-        <wd-icon name="more" size="40rpx" color="#1890ff" />
+        <wd-icon name="more" size="40rpx" color="var(--brand-primary)" />
         <text class="mt-4rpx text-22rpx text-[#333]">更多</text>
       </view>
       <!-- 更多操作 ActionSheet -->

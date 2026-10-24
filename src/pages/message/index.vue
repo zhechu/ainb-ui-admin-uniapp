@@ -58,7 +58,7 @@
             <view class="flex items-center justify-between text-26rpx text-[#999]">
               <view
                 v-if="!item.readStatus"
-                class="text-[#1890ff]"
+                class="text-primary"
                 @click.stop="handleReadOne(item)"
               >
                 标记已读

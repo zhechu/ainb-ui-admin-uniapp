@@ -19,7 +19,7 @@
         @click="handleEnterDept(item)"
       >
         <view class="flex items-center p-24rpx">
-          <view class="mr-16rpx h-80rpx w-80rpx flex items-center justify-center rounded-8rpx bg-[#1890ff]">
+          <view class="mr-16rpx h-80rpx w-80rpx flex items-center justify-center rounded-8rpx bg-primary">
             <wd-icon name="folder" size="32px" color="#fff" />
           </view>
           <view class="flex-1">
@@ -52,7 +52,7 @@
           </view>
           <view
             v-else
-            class="mr-16rpx h-80rpx w-80rpx flex items-center justify-center rounded-full bg-[#1890ff] text-32rpx text-white"
+            class="mr-16rpx h-80rpx w-80rpx flex items-center justify-center rounded-full bg-primary text-32rpx text-white"
           >
             {{ item.nickname?.charAt(0) || item.username?.charAt(0) }}
           </view>

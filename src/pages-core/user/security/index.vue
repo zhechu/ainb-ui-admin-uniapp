@@ -11,7 +11,7 @@
     <wd-cell-group custom-class="cell-group" border>
       <wd-cell title="修改密码" is-link @click="handleChangePassword">
         <template #icon>
-          <wd-icon name="lock" size="20px" color="#1890ff" class="mr-16rpx" />
+          <wd-icon name="lock" size="20px" color="var(--brand-primary)" class="mr-16rpx" />
         </template>
       </wd-cell>
     </wd-cell-group>

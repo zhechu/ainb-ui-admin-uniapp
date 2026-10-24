@@ -34,7 +34,7 @@
               <view class="text-32rpx text-[#333] font-semibold">
                 {{ item.itemName || '-' }}
               </view>
-              <text class="text-32rpx text-[#1890ff] font-semibold">{{ formatQuantity(item.quantity) || '0.00' }}</text>
+              <text class="text-32rpx text-primary font-semibold">{{ formatQuantity(item.quantity) || '0.00' }}</text>
             </view>
             <view class="mb-12rpx text-28rpx text-[#666]">
               <text class="mr-8rpx text-[#999]">规格：</text>

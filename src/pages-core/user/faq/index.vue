@@ -36,7 +36,7 @@
             >
               <template #title>
                 <view class="flex items-center">
-                  <wd-icon name="edit" size="18px" color="#1890ff" class="mr-16rpx" />
+                  <wd-icon name="edit" size="18px" color="var(--brand-primary)" class="mr-16rpx" />
                   <text>{{ item.title }}</text>
                 </view>
               </template>

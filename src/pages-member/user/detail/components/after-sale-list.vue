@@ -47,7 +47,7 @@
           <view class="text-24rpx text-[#999]">
             {{ formatDateTime(item.createTime) || '-' }}
           </view>
-          <view class="mt-16rpx text-right text-24rpx text-[#1890ff]">
+          <view class="mt-16rpx text-right text-24rpx text-primary">
             处理退款
           </view>
         </view>

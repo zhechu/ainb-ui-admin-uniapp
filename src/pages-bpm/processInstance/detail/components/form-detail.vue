@@ -25,7 +25,7 @@
         @click="openBusinessDetail"
       >
         <view class="h-72rpx w-72rpx flex shrink-0 items-center justify-center rounded-full bg-[#e6f4ff]">
-          <wd-icon name="eye" size="40rpx" color="#1890ff" />
+          <wd-icon name="eye" size="40rpx" color="var(--brand-primary)" />
         </view>
         <view class="ml-20rpx flex-1">
           <view class="text-28rpx text-[#333] font-medium">

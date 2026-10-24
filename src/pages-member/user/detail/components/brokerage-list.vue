@@ -33,7 +33,7 @@
             />
             <view
               v-else
-              class="h-88rpx w-88rpx flex shrink-0 items-center justify-center rounded-full bg-[#1890ff] text-34rpx text-white"
+              class="h-88rpx w-88rpx flex shrink-0 items-center justify-center rounded-full bg-primary text-34rpx text-white"
             >
               {{ (item.nickname || '推').charAt(0) }}
             </view>

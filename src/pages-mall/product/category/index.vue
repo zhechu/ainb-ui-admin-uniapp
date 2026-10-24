@@ -42,13 +42,13 @@
           <!-- 子分类 / 查看商品 入口 -->
           <view class="mt-16rpx flex items-center justify-end gap-32rpx border-t border-[#f0f0f0] pt-16rpx">
             <view v-if="item.children?.length" class="flex items-center" @click.stop="handleEnterChildren(item)">
-              <text class="text-26rpx text-[#1890ff]">子分类 ({{ item.children.length }})</text>
-              <wd-icon name="arrow-right" size="12px" color="#1890ff" />
+              <text class="text-26rpx text-primary">子分类 ({{ item.children.length }})</text>
+              <wd-icon name="arrow-right" size="12px" color="var(--brand-primary)" />
             </view>
             <!-- 只有叶子分类（无子分类）才有商品 -->
             <view v-else class="flex items-center" @click.stop="handleViewSpu(item)">
-              <text class="text-26rpx text-[#1890ff]">查看商品</text>
-              <wd-icon name="arrow-right" size="12px" color="#1890ff" />
+              <text class="text-26rpx text-primary">查看商品</text>
+              <wd-icon name="arrow-right" size="12px" color="var(--brand-primary)" />
             </view>
           </view>
         </view>

@@ -40,7 +40,7 @@
         </TenantVisitPicker>
         <wd-cell title="个人资料" is-link @click="handleGoProfile">
           <template #prefix>
-            <wd-icon name="user" size="20px" color="#1890ff" class="mr-16rpx" />
+            <wd-icon name="user" size="20px" color="var(--brand-primary)" class="mr-16rpx" />
           </template>
         </wd-cell>
         <wd-cell title="账号安全" is-link @click="handleGoSecurity">
@@ -67,7 +67,7 @@
         </wd-cell>
         <wd-cell title="应用设置" is-link @click="handleGoSettings">
           <template #prefix>
-            <wd-icon name="settings" size="20px" color="#1890ff" class="mr-16rpx" />
+            <wd-icon name="settings" size="20px" color="var(--brand-primary)" class="mr-16rpx" />
           </template>
         </wd-cell>
       </wd-cell-group>
@@ -195,7 +195,7 @@ async function handleLogout() {
 <style lang="scss" scoped>
 // 顶部渐变背景
 .header-bg {
-  background: linear-gradient(135deg, #1890ff 0%, #36cfc9 100%);
+  background: linear-gradient(135deg, var(--brand-primary) 0%, #36cfc9 100%);
 }
 
 // 用户卡片阴影
