@@ -1,21 +1,36 @@
 MIT License
 
-Copyright (c) 2025 菲鸽
+Copyright (c) 2026 启凌
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+上述 MIT 授权覆盖本仓库自身的代码，**不覆盖**下述第三方组件——它们按其原始协议授权。
+
+## 派生关系
+
+本仓库（`ainb-ui-admin-uniapp`，启凌智搭 · 移动端）由两个 MIT 上游叠加而成：
+
+- 工程骨架派生自 **unibest**（https://github.com/feige996/unibest ，MIT，`Copyright (c) 2025 菲鸽`）；
+- 业务页面底座派生自芋道 **yudao-ui-admin-uniapp**（https://gitee.com/yudaocode/yudao-ui-admin-uniapp ，
+  MIT，`Copyright (c) 2025 菲鸽` —— 该上游本身亦派生自 unibest，故两者协议全文逐字节相同）。
+
+本仓库**不派生自** `yudao-ui-admin-vue3`，也**不内嵌** form-create / form-create-designer 的源码副本
+（本仓没有 `src/lib/` 目录）。Web 管理端 `ainb-ui-admin-vue3` 是并列仓库，非本仓上游。
+
+## form-create
+
+`src/pages-bpm/components/form-create/` 是 form-create **规则模型的独立 uni-app / TypeScript 实现**，
+沿用其 JSON Schema 与 API 概念，不含上游源码拷贝。form-create 本身为 MIT 协议，
+`Copyright (c) 2022 xaboy`（https://github.com/xaboy/form-create ）。
+
+## 第三方组件
+
+其余第三方开源组件（uni-app 全家桶、echarts、livekit-client、@wot-ui/ui、z-paging、vue、pinia 等）
+按其原始许可协议授权，完整协议文本见 `licenses/` 目录，逐项清单与版权行见
+`THIRD-PARTY-NOTICES.md`。
