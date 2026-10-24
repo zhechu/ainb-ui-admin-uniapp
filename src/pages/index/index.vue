@@ -25,8 +25,6 @@
 
     <!-- 用户信息头部 -->
     <UserHeader />
-    <!-- Banner 轮播图 -->
-    <!-- <HomeBanner /> -->
     <!-- 菜单区域 -->
     <MenuSection />
   </view>

@@ -50,7 +50,7 @@
         <text class="text-primary" @click="handleGoPrivacy">《隐私协议》</text>
       </view>
       <text class="mb-10rpx text-24rpx text-gray-400">
-        Copyright © 2026 iocoder.cn All Rights Reserved.
+        Copyright © 2026 启凌 All Rights Reserved.
       </text>
       <text class="text-24rpx text-gray-400">
         启凌智搭

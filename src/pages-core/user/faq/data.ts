@@ -25,11 +25,11 @@ export const faqList: FaqCategory[] = [
     childList: [
       {
         title: '启凌智搭官网地址多少？',
-        content: 'http://81.71.100.62',
+        content: 'https://demo.enlev.cn',
       },
       {
         title: '启凌智搭文档地址多少？',
-        content: 'http://81.71.100.62',
+        content: 'https://doc.enlev.cn',
       },
     ],
   },
