@@ -1,21 +1,60 @@
-// 品牌设计令牌：与 Web 端 ainb-ui-admin-vue3/src/styles/var.css 对齐（移动端仅亮色，暂无暗色模式）
+// 品牌设计令牌：与 Web 端 ainb-ui-admin-vue3 对齐（移动端仅亮色，暂无暗色模式）
+//
+// 取值来源（Web 端两份，都在 src/styles/var.css）：
+//   · 主色 / 画布 / 表面 / 圆角 / 阴影 / 渐变 —— `:root` 的 --el-color-primary 与 brand 段
+//   · 文本四级 / 边框 / 填充 / 强调底 —— `.portal-theme` 段（应用侧长时间阅读的克制配色）
+//
+// ==================== 移动端适配原则（与 Web 同源，但【不是】照搬）====================
+// 1. 触控目标 ≥44px（≈88rpx）：Web 的 32px 行高在移动端点不准，见 --brand-touch-min；
+// 2. 圆角比 Web 大一档：Web 面板 12px，移动卡片 16px、弹窗顶角 24rpx ——
+//    手机屏幕小、卡片占屏比大，同半径看上去会显得「方」；
+// 3. 列表用卡片不用表格：Web 的多列表格降级成「标题 + 键值行 + 右上状态标签」，
+//    横向滚动在触摸设备上是最差的交互；
+// 4. 阴影比 Web 更轻：移动端卡片之间靠间距与底色分层，重阴影会显脏；
+// 5. 字号阶梯 22 / 24 / 26 / 28 / 32rpx，正文 28rpx 起（Web 正文 14px ≈ 28rpx）。
 :root,
 page {
   // wot-design-uni 主题色：组件主色 / tabbar 高亮 / uno primary 的唯一来源
+  // 与 Web 端 app store 的 elColorPrimary 同值（#1890ff），两端主色一致
   --wot-color-theme: #1890ff;
 
   // 品牌色
   --brand-primary: #1890ff;
   --brand-grad: linear-gradient(120deg, #22a6f2 0%, #3b4bd8 100%);
 
+  // 文本四级：强标题 / 正文 / 次要说明 / 占位与禁用
+  --brand-text-strong: #172033;
+  --brand-text-primary: #344054;
+  --brand-text-secondary: #667085;
+  --brand-text-muted: #98a2b3;
+
   // 画布 / 表面 / 分隔线
-  --brand-canvas: #e9eef9;
+  --brand-canvas: #f4f7fb;
   --brand-surface: #fff;
   --brand-line: #eef1f6;
 
-  // 圆角阶梯：控件 < 小卡 < 面板 < hero
+  // 填充：输入项底 / 次级块底
+  --brand-fill: #f5f7fa;
+  --brand-fill-light: #f8fafc;
+
+  // 边框：卡片描边 / 更轻的内部分隔
+  --brand-border: #e6ebf2;
+  --brand-border-light: #eef1f5;
+
+  // 强调底：选中态、图标底、可点区域的浅色铺垫
+  --brand-accent: #eef4ff;
+
+  // 行高：标题紧凑、正文舒展
+  --brand-lh-tight: 1.35;
+  --brand-lh-base: 1.55;
+
+  // 触控目标最小边长（44px ≈ 88rpx）
+  --brand-touch-min: 44px;
+
+  // 圆角阶梯：控件 < 小卡 < 面板 < hero。移动卡片用 --brand-radius-card-mobile（比 Web 大一档）
   --brand-radius-control: 6px;
   --brand-radius-card: 10px;
+  --brand-radius-card-mobile: 16px;
   --brand-radius-panel: 12px;
   --brand-radius-hero: 20px;
 

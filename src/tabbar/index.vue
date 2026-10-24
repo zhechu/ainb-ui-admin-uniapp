@@ -89,8 +89,8 @@ onMounted(() => {
   })
 })
 // #endif
-const activeColor = 'var(--wot-color-theme, #1890ff)'
-const inactiveColor = '#666'
+const activeColor = 'var(--wot-color-theme)'
+const inactiveColor = 'var(--brand-text-secondary, #667085)'
 function getColorByIndex(index: number) {
   return tabbarStore.curIdx === index ? activeColor : inactiveColor
 }
@@ -169,7 +169,7 @@ function getImageByIndex(index: number, item: CustomTabBarItem) {
   right: 0;
   z-index: 1000;
 
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--brand-border-light, #eef1f5);
   box-sizing: border-box;
 }
 // 中间鼓包的样式

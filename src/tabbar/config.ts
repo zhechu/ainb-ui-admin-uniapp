@@ -1,4 +1,5 @@
 import type { TabBar } from '@uni-helper/vite-plugin-uni-pages'
+import { TABBAR_BG_COLOR, TABBAR_COLOR, TABBAR_SELECTED_COLOR } from '../style/theme'
 import type { CustomTabBarItem, NativeTabBarItem } from './types'
 
 /**
@@ -156,9 +157,10 @@ export function isTabBarPage(path: string): boolean {
 const _tabbar: TabBar = {
   // 只有微信小程序支持 custom。App 和 H5 不生效
   custom: selectedTabbarStrategy === TABBAR_STRATEGY_MAP.CUSTOM_TABBAR_WITH_CACHE,
-  color: '#999999',
-  selectedColor: '#1890ff',
-  backgroundColor: '#F8F8F8',
+  // 原生 tabbar 在 pages.json 里只能是字面量色值，读不到 CSS 变量，故取自 style/theme.ts
+  color: TABBAR_COLOR,
+  selectedColor: TABBAR_SELECTED_COLOR,
+  backgroundColor: TABBAR_BG_COLOR,
   borderStyle: 'black',
   height: '50px',
   fontSize: '10px',

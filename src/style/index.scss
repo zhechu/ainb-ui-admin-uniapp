@@ -29,11 +29,14 @@ border-t-1
 // }
 
 // ==================== 全局公共样式 ====================
+// 令牌全部来自 ./tokens.scss（与 Web 端 src/styles/var.css 同源）。
+// 新增页面一律用这里的类，不要在页面内再写一遍卡片/行样式与十六进制色值。
 
-// 页面容器：灰色背景 + 最小全屏高度
+// 页面容器：画布底色 + 最小全屏高度
 .yd-page-container {
   @apply min-h-screen;
-  background-color: #f5f5f5;
+
+  background-color: var(--brand-canvas);
 }
 
 // 分页容器：配合 yd-page-container 与 z-paging 的 fixed=false 布局
@@ -41,14 +44,151 @@ border-t-1
   @apply h-screen flex flex-col overflow-hidden;
 }
 
+// ==================== 卡片 ====================
+// 移动端不用表格：Web 的多列表格降级成「标题 + 键值行 + 右上状态标签」
+// 卡片自带 24rpx 外边距：普通块级流里相邻卡片的外边距会合并成 24rpx，
+// 不要把它们放进 flex 容器（flex 不合并外边距，间距会翻倍）
+.yd-card {
+  @apply m-24rpx p-24rpx;
+
+  background-color: var(--brand-surface);
+  border: 1rpx solid var(--brand-border-light);
+  border-radius: var(--brand-radius-card-mobile);
+  box-shadow: var(--brand-shadow-1);
+  line-height: var(--brand-lh-base);
+
+  // 无阴影无描边版：用于卡片里再套一层，或贴着弹窗内壁的场景
+  &--flat {
+    @apply m-0 p-24rpx;
+
+    background-color: var(--brand-fill-light);
+    border: none;
+    border-radius: var(--brand-radius-card);
+    box-shadow: none;
+  }
+
+  // 无内边距版：包住 wd-cell-group 等自带内边距的组件，圆角靠 overflow 裁切
+  &--flush {
+    @apply m-24rpx p-0;
+
+    overflow: hidden;
+  }
+
+  // 卡片标题：Web 端 card header 的移动端等价物
+  &-title {
+    @apply mb-16rpx flex items-center justify-between text-30rpx font-semibold;
+
+    color: var(--brand-text-strong);
+    line-height: var(--brand-lh-tight);
+  }
+
+  // 卡片正文
+  &-body {
+    @apply text-28rpx;
+
+    color: var(--brand-text-primary);
+  }
+}
+
+// ==================== 键值行 ====================
+// 列表卡片的主体：左标签右值，标签固定窄列，值左对齐自动换行
+.yd-cell-row {
+  @apply flex items-start py-12rpx text-28rpx;
+
+  color: var(--brand-text-primary);
+
+  // 标签列：Web 表格的表头在移动端变成每行前缀
+  &__label {
+    @apply w-160rpx shrink-0;
+
+    color: var(--brand-text-secondary);
+  }
+
+  // 值列
+  &__value {
+    @apply flex-1 break-all;
+  }
+
+  // 行内右侧操作区（状态标签 / 图标按钮）
+  &__extra {
+    @apply ml-16rpx shrink-0;
+  }
+
+  // 相邻行之间的内部分隔：比卡片描边更轻
+  & + & {
+    border-top: 1rpx solid var(--brand-border-light);
+  }
+}
+
+// ==================== 触控目标 ====================
+// 44px 是移动端可点区域的下限（Web 的 32px 在触摸设备上点不准）
+.yd-touch {
+  @apply flex items-center justify-center;
+
+  min-height: var(--brand-touch-min);
+}
+
+// ==================== 导航栏 ====================
+// 统一 fixed + 占位 + 安全区，标题 32rpx/600
+.yd-navbar {
+  position: relative;
+  background-color: var(--brand-surface);
+  border-bottom: 1rpx solid var(--brand-border-light);
+
+  &__title {
+    @apply text-32rpx font-semibold;
+
+    color: var(--brand-text-strong);
+    line-height: var(--brand-lh-tight);
+  }
+
+  // 导航栏图标按钮：等值负外边距把触控区撑到 ~80rpx，
+  // 外边距盒尺寸不变，因此对 wd-navbar 的布局零影响
+  &__action {
+    @apply flex items-center justify-center;
+
+    padding: 20rpx 24rpx;
+    margin: -20rpx -24rpx;
+  }
+
+  // 底部安全区垫片：刘海屏 / 手势条下不让内容贴边
+  &-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+// ==================== 悬浮按钮 ====================
+// wd-fab 之外，页面自己写悬浮按钮时用这个
+.yd-fab {
+  @apply flex items-center justify-center;
+
+  right: 32rpx;
+  bottom: calc(48rpx + env(safe-area-inset-bottom));
+  width: 108rpx;
+  height: 108rpx;
+  background-color: var(--brand-primary);
+  border-radius: 50%;
+  box-shadow: var(--brand-btn-shadow);
+}
+
 // ==================== 详情页底部操作按钮 ====================
+// 详情页正文容器：底部留出固定操作条的高度，否则最后一行会被盖住
+.yd-detail-body {
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
 .yd-detail-footer {
   position: fixed;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
-  background-color: #fff;
+
   padding: 24rpx;
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+
+  background-color: var(--brand-surface);
+  border-top: 1rpx solid var(--brand-border-light);
+  box-shadow: var(--brand-shadow-1);
 
   // 按钮容器
   &-actions {
@@ -66,12 +206,16 @@ border-t-1
   // 弹窗容器
   &-container {
     @apply p-32rpx;
+
+    padding-bottom: calc(32rpx + env(safe-area-inset-bottom));
   }
 
   // 弹窗标题
   &-title {
     @apply mb-24rpx text-32rpx font-semibold;
-    color: #333;
+
+    color: var(--brand-text-strong);
+    line-height: var(--brand-lh-tight);
   }
 
   // 表单项
@@ -86,7 +230,8 @@ border-t-1
   // 表单项标签
   &-label {
     @apply mb-12rpx text-28rpx;
-    color: #666;
+
+    color: var(--brand-text-secondary);
   }
 
   // 底部按钮组
@@ -103,8 +248,10 @@ border-t-1
 
     // 日期选择框
     &-picker {
-      @apply h-72rpx flex flex-1 items-center justify-center rounded-8rpx px-24rpx text-28rpx;
-      background-color: #f5f5f5;
+      @apply h-88rpx flex flex-1 items-center justify-center rounded-8rpx px-24rpx text-28rpx;
+
+      background-color: var(--brand-fill);
+      color: var(--brand-text-primary);
     }
 
     // 确认按钮组

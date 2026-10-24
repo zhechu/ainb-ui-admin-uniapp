@@ -85,8 +85,8 @@ export default defineConfig({
   ],
   theme: {
     colors: {
-      /** 主题色，用法如: text-primary */
-      primary: 'var(--wot-color-theme,#0957DE)',
+      /** 主题色，用法如: text-primary。兜底值与 src/style/tokens.scss 的 --wot-color-theme 保持一致 */
+      primary: 'var(--wot-color-theme,#1890ff)',
     },
     fontSize: {
       /** 提供更小号的字体，用法如：text-2xs */
