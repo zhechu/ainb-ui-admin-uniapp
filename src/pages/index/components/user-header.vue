@@ -1,14 +1,14 @@
 <template>
-  <view class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-    <view class="flex items-center p-24rpx">
+  <view class="yd-card">
+    <view class="flex items-center">
       <view class="avatar-wrapper mr-20rpx">
         <wd-img :src="avatarSrc" width="100rpx" height="100rpx" mode="aspectFill" round @error="avatarLoadFailed = true" />
       </view>
       <view class="flex-1">
-        <view class="text-32rpx text-#333 font-500">
+        <view class="text-32rpx text-[var(--brand-text-strong)] font-semibold leading-tight">
           {{ greeting }}，{{ userInfo.nickname || userInfo.username }}
         </view>
-        <view class="mt-8rpx text-26rpx text-#999">
+        <view class="mt-8rpx text-26rpx text-[var(--brand-text-muted)]">
           {{ description }}
         </view>
       </view>
@@ -73,7 +73,8 @@ const description = computed(() => {
 
 <style lang="scss" scoped>
 .avatar-wrapper {
-  border: 3rpx solid #f0f0f0;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.06);
+  border: 3rpx solid var(--brand-border-light);
+  border-radius: 50%;
+  box-shadow: var(--brand-shadow-1);
 }
 </style>

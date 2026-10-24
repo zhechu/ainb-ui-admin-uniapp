@@ -1,7 +1,7 @@
 <template>
-  <view v-if="menus.length > 0" class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-    <view class="flex items-center px-24rpx py-20rpx">
-      <text class="text-28rpx text-#333 font-500">最近使用</text>
+  <view v-if="menus.length > 0" class="yd-card">
+    <view class="yd-card-title">
+      最近使用
     </view>
     <MenuGrid :menus="menus" />
   </view>

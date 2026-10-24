@@ -2,7 +2,7 @@
   <view class="min-h-0 flex flex-1 flex-col overflow-hidden bg-white">
     <!-- 顶部横向 Tab -->
     <scroll-view
-      class="flex-shrink-0 border-b-1rpx border-#f0f0f0"
+      class="flex-shrink-0 border-b-1rpx border-[var(--brand-border-light)]"
       scroll-x
       :scroll-into-view="tabAnchor"
       :show-scrollbar="false"
@@ -11,21 +11,21 @@
       <view class="inline-flex">
         <view
           :id="`tab-${FAVORITE_TAB_KEY}`"
-          class="flex flex-shrink-0 flex-col items-center px-26rpx py-18rpx"
+          class="yd-touch flex-shrink-0 flex-col px-26rpx py-18rpx"
           @click="active = FAVORITE_TAB_KEY"
         >
-          <text class="text-28rpx" :class="active === FAVORITE_TAB_KEY ? 'text-#3370ff font-500' : 'text-#666'">我的常用</text>
-          <view class="mt-10rpx h-6rpx w-32rpx rounded-3rpx" :class="active === FAVORITE_TAB_KEY ? 'bg-#3370ff' : 'bg-transparent'" />
+          <text class="text-28rpx" :class="active === FAVORITE_TAB_KEY ? 'text-primary font-500' : 'text-[var(--brand-text-secondary)]'">我的常用</text>
+          <view class="mt-10rpx h-6rpx w-32rpx rounded-3rpx" :class="active === FAVORITE_TAB_KEY ? 'bg-primary' : 'bg-transparent'" />
         </view>
         <view
           v-for="group in groups"
           :id="`tab-${group.key}`"
           :key="group.key"
-          class="flex flex-shrink-0 flex-col items-center px-26rpx py-18rpx"
+          class="yd-touch flex-shrink-0 flex-col px-26rpx py-18rpx"
           @click="active = group.key"
         >
-          <text class="text-28rpx" :class="isActiveGroup(group) ? 'text-#3370ff font-500' : 'text-#666'">{{ group.name }}</text>
-          <view class="mt-10rpx h-6rpx w-32rpx rounded-3rpx" :class="isActiveGroup(group) ? 'bg-#3370ff' : 'bg-transparent'" />
+          <text class="text-28rpx" :class="isActiveGroup(group) ? 'text-primary font-500' : 'text-[var(--brand-text-secondary)]'">{{ group.name }}</text>
+          <view class="mt-10rpx h-6rpx w-32rpx rounded-3rpx" :class="isActiveGroup(group) ? 'bg-primary' : 'bg-transparent'" />
         </view>
       </view>
     </scroll-view>
@@ -40,13 +40,13 @@
       </template>
       <!-- 模块二级分组 -->
       <template v-else-if="activeGroup">
-        <view class="px-24rpx pb-4rpx pt-24rpx">
-          <text class="text-28rpx text-#333 font-500">{{ activeGroup.name }}</text>
+        <view class="yd-card-title px-24rpx pb-4rpx pt-24rpx">
+          {{ activeGroup.name }}
         </view>
         <template v-for="sub in activeGroup.subGroups" :key="sub.key">
-          <view v-if="sub.name" class="flex items-center px-24rpx pb-8rpx pt-28rpx">
-            <view class="mr-12rpx h-22rpx w-6rpx rounded-4rpx bg-#3370ff" />
-            <text class="text-24rpx text-#666">{{ sub.name }}</text>
+          <view v-if="sub.name" class="mb-8rpx mt-16rpx flex items-center px-24rpx">
+            <view class="mr-12rpx h-22rpx w-6rpx rounded-4rpx bg-primary" />
+            <text class="text-24rpx text-[var(--brand-text-secondary)]">{{ sub.name }}</text>
           </view>
           <MenuGrid :menus="sub.menus" />
         </template>

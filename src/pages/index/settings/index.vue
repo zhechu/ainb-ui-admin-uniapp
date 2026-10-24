@@ -13,16 +13,16 @@
     </view>
 
     <!-- 工作台布局 -->
-    <view class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-      <view class="section-header">
-        <text class="text-28rpx text-#333 font-500">工作台布局</text>
+    <view class="yd-card">
+      <view class="yd-card-title">
+        工作台布局
       </view>
-      <view class="flex gap-16rpx px-30rpx pb-24rpx">
+      <view class="flex gap-16rpx">
         <view
           v-for="opt in layoutOptions"
           :key="opt.value"
-          class="flex-1 rounded-12rpx py-16rpx text-center text-26rpx"
-          :class="menuLayout === opt.value ? 'bg-#3370ff text-white' : 'bg-#f5f5f5 text-#666'"
+          class="yd-touch flex-1 rounded-12rpx text-26rpx"
+          :class="menuLayout === opt.value ? 'bg-primary text-white font-500' : 'bg-[var(--brand-fill)] text-[var(--brand-text-secondary)]'"
           @click="setMenuLayout(opt.value)"
         >
           {{ opt.label }}
@@ -31,25 +31,25 @@
     </view>
 
     <!-- 我的常用区域 -->
-    <view class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-      <view class="section-header">
-        <text class="text-28rpx text-#333 font-500">我的常用</text>
+    <view class="yd-card">
+      <view class="yd-card-title">
+        我的常用
       </view>
       <!-- 常用分组 -->
       <view v-if="favoriteMenus.length > 0" class="menu-list">
         <view v-for="(menu, idx) in favoriteMenus" :key="menu.key" class="menu-item">
           <view class="menu-item__left">
-            <view class="menu-item__icon" :style="{ backgroundColor: menu.iconColor ? `${menu.iconColor}20` : '#f5f5f5' }">
+            <view class="menu-item__icon" :style="{ backgroundColor: menu.iconColor ? `${menu.iconColor}20` : 'var(--brand-accent)' }">
               <wd-icon :name="menu.icon" size="40rpx" :color="menu.iconColor" />
             </view>
             <text class="menu-item__name">{{ menu.name }}</text>
           </view>
           <view class="menu-item__right">
             <view class="p-6rpx" @click="moveFavorite(menu, -1)">
-              <wd-icon name="arrow-up" size="36rpx" :color="idx === 0 ? '#dcdcdc' : '#999'" />
+              <wd-icon name="arrow-up" size="36rpx" :color="idx === 0 ? 'var(--brand-border)' : 'var(--brand-text-muted)'" />
             </view>
             <view class="p-6rpx" @click="moveFavorite(menu, 1)">
-              <wd-icon name="arrow-down" size="36rpx" :color="idx === favoriteMenus.length - 1 ? '#dcdcdc' : '#999'" />
+              <wd-icon name="arrow-down" size="36rpx" :color="idx === favoriteMenus.length - 1 ? 'var(--brand-border)' : 'var(--brand-text-muted)'" />
             </view>
             <view class="toggle-btn toggle-remove" @click="handleRemoveFavorite(menu)">
               <view class="toggle-bar-h" />
@@ -67,14 +67,14 @@
 
     <!-- 菜单分组 -->
     <view id="menuGroups">
-      <view v-for="group in filteredMenuGroups" :key="group.key" class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-        <view class="section-header">
-          <text class="text-28rpx text-#333 font-500">{{ group.name }}</text>
+      <view v-for="group in filteredMenuGroups" :key="group.key" class="yd-card">
+        <view class="yd-card-title">
+          {{ group.name }}
         </view>
         <view class="menu-list">
           <view v-for="menu in group.menus" :key="menu.key" class="menu-item">
             <view class="menu-item__left">
-              <view class="menu-item__icon" :style="{ backgroundColor: menu.iconColor ? `${menu.iconColor}20` : '#f5f5f5' }">
+              <view class="menu-item__icon" :style="{ backgroundColor: menu.iconColor ? `${menu.iconColor}20` : 'var(--brand-accent)' }">
                 <wd-icon :name="menu.icon" size="40rpx" :color="menu.iconColor" />
               </view>
               <text class="menu-item__name">{{ menu.name }}</text>
@@ -205,12 +205,8 @@ function scrollToGroups() {
 </script>
 
 <style lang="scss" scoped>
-.section-header {
-  padding: 24rpx 30rpx 16rpx;
-}
-
 .menu-list {
-  padding: 0 30rpx 20rpx;
+  padding: 0;
 }
 
 .menu-item {
@@ -218,7 +214,7 @@ function scrollToGroups() {
   align-items: center;
   justify-content: space-between;
   padding: 20rpx 0;
-  border-bottom: 1rpx solid #f5f5f5;
+  border-bottom: 1rpx solid var(--brand-border-light);
 
   &:last-child {
     border-bottom: none;
@@ -241,7 +237,7 @@ function scrollToGroups() {
 
   &__name {
     font-size: 30rpx;
-    color: #333;
+    color: var(--brand-text-primary);
   }
 
   &__right {
@@ -257,14 +253,25 @@ function scrollToGroups() {
   width: 44rpx;
   height: 44rpx;
   border-radius: 50%;
+
+  // 视觉仍是 44rpx，但触控区向四周各扩 22rpx（合计 88rpx ≈ 44px），
+  // 伪元素不占布局，因此不会把相邻按钮挤开
+  &::after {
+    position: absolute;
+    top: -22rpx;
+    right: -22rpx;
+    bottom: -22rpx;
+    left: -22rpx;
+    content: '';
+  }
 }
 
 .toggle-add {
-  background: #3370ff;
+  background: var(--brand-primary);
 }
 
 .toggle-remove {
-  background: #f2f3f5;
+  background: var(--brand-fill);
 }
 
 .toggle-bar-h,
@@ -289,10 +296,10 @@ function scrollToGroups() {
 
 .toggle-add .toggle-bar-h,
 .toggle-add .toggle-bar-v {
-  background: #fff;
+  background: var(--brand-surface);
 }
 
 .toggle-remove .toggle-bar-h {
-  background: #bbb;
+  background: var(--brand-text-muted);
 }
 </style>

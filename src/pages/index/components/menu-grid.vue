@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import type { MenuItem } from '../index'
+import { BRAND } from '@/style/theme'
 import { useMenuNavigate } from '../index'
 
 defineOptions({
@@ -40,8 +41,8 @@ const { navigateToMenu } = useMenuNavigate()
 /** 获取图标样式 */
 function getIconStyle(menu: MenuItem) {
   return {
-    backgroundColor: menu.iconColor ? `${menu.iconColor}20` : '#f5f5f5',
-    color: menu.iconColor || '#666',
+    backgroundColor: menu.iconColor ? `${menu.iconColor}20` : BRAND.accent,
+    color: menu.iconColor || BRAND.textSecondary,
   }
 }
 </script>
@@ -52,7 +53,7 @@ function getIconStyle(menu: MenuItem) {
   min-height: 40rpx;
   font-size: 24rpx;
   line-height: 32rpx;
-  color: #333;
+  color: var(--brand-text-primary);
   overflow: hidden;
   display: -webkit-box;
   white-space: normal;

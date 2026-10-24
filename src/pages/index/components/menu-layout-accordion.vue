@@ -6,9 +6,9 @@
     <MenuRecent :menus="recents" />
 
     <!-- 菜单分组 -->
-    <view v-for="group in groups" :key="group.key" class="mx-20rpx mt-20rpx overflow-hidden rounded-16rpx bg-white">
-      <view class="px-24rpx pb-0 pt-20rpx">
-        <text class="text-28rpx text-#333 font-500">{{ group.name }}</text>
+    <view v-for="group in groups" :key="group.key" class="yd-card">
+      <view class="yd-card-title">
+        {{ group.name }}
       </view>
 
       <!-- 仅一个无名二级分组：直接平铺，不做折叠 -->
@@ -18,13 +18,13 @@
       <template v-else>
         <view v-for="(sub, idx) in group.subGroups" :key="sub.key">
           <view
-            class="flex items-center border-t-1rpx border-#f5f5f5 px-24rpx py-22rpx"
+            class="yd-touch justify-start border-t-1rpx border-[var(--brand-border-light)]"
             @click="toggle(group.key, sub.key, idx)"
           >
-            <wd-icon :name="isOpen(group.key, sub.key, idx) ? 'down' : 'right'" size="26rpx" color="#999" />
-            <text class="ml-12rpx text-26rpx text-#333 font-500">{{ sub.name || group.name }}</text>
+            <wd-icon :name="isOpen(group.key, sub.key, idx) ? 'down' : 'right'" size="26rpx" color="var(--brand-text-muted)" />
+            <text class="ml-12rpx text-26rpx text-[var(--brand-text-primary)] font-500">{{ sub.name || group.name }}</text>
             <view class="flex-1" />
-            <text class="rounded-full bg-#f2f3f5 px-16rpx py-3rpx text-22rpx text-#999">{{ sub.menus.length }}</text>
+            <text class="rounded-full bg-[var(--brand-fill)] px-16rpx py-3rpx text-22rpx text-[var(--brand-text-muted)]">{{ sub.menus.length }}</text>
           </view>
           <MenuGrid v-if="isOpen(group.key, sub.key, idx)" :menus="sub.menus" />
         </view>

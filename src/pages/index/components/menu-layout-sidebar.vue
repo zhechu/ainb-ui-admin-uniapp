@@ -1,23 +1,23 @@
 <template>
   <view class="min-h-0 flex flex-1 overflow-hidden bg-white">
     <!-- 左侧模块栏 -->
-    <scroll-view class="w-172rpx flex-shrink-0 bg-#f5f6f8" scroll-y>
+    <scroll-view class="w-172rpx flex-shrink-0 bg-[var(--brand-fill)]" scroll-y>
       <view
-        class="relative py-26rpx text-center text-24rpx leading-tight"
-        :class="active === FAVORITE_TAB_KEY ? 'bg-white text-#3370ff font-500' : 'text-#666'"
+        class="yd-touch relative flex-col py-26rpx text-center text-24rpx leading-tight"
+        :class="active === FAVORITE_TAB_KEY ? 'bg-white text-primary font-500' : 'text-[var(--brand-text-secondary)]'"
         @click="active = FAVORITE_TAB_KEY"
       >
-        <view v-if="active === FAVORITE_TAB_KEY" class="absolute bottom-16rpx left-0 top-16rpx w-6rpx rounded-r-4rpx bg-#3370ff" />
+        <view v-if="active === FAVORITE_TAB_KEY" class="absolute bottom-16rpx left-0 top-16rpx w-6rpx rounded-r-4rpx bg-primary" />
         我的常用
       </view>
       <view
         v-for="group in groups"
         :key="group.key"
-        class="relative px-6rpx py-26rpx text-center text-24rpx leading-tight"
-        :class="isActiveGroup(group) ? 'bg-white text-#3370ff font-500' : 'text-#666'"
+        class="yd-touch relative flex-col px-6rpx py-26rpx text-center text-24rpx leading-tight"
+        :class="isActiveGroup(group) ? 'bg-white text-primary font-500' : 'text-[var(--brand-text-secondary)]'"
         @click="active = group.key"
       >
-        <view v-if="isActiveGroup(group)" class="absolute bottom-16rpx left-0 top-16rpx w-6rpx rounded-r-4rpx bg-#3370ff" />
+        <view v-if="isActiveGroup(group)" class="absolute bottom-16rpx left-0 top-16rpx w-6rpx rounded-r-4rpx bg-primary" />
         {{ group.name }}
       </view>
     </scroll-view>
@@ -32,13 +32,13 @@
       </template>
       <!-- 模块二级分组 -->
       <template v-else-if="activeGroup">
-        <view class="px-24rpx pb-4rpx pt-24rpx">
-          <text class="text-28rpx text-#333 font-500">{{ activeGroup.name }}</text>
+        <view class="yd-card-title px-24rpx pb-4rpx pt-24rpx">
+          {{ activeGroup.name }}
         </view>
         <template v-for="sub in activeGroup.subGroups" :key="sub.key">
-          <view v-if="sub.name" class="flex items-center px-24rpx pb-8rpx pt-28rpx">
-            <view class="mr-12rpx h-22rpx w-6rpx rounded-4rpx bg-#3370ff" />
-            <text class="text-24rpx text-#666">{{ sub.name }}</text>
+          <view v-if="sub.name" class="mb-8rpx mt-16rpx flex items-center px-24rpx">
+            <view class="mr-12rpx h-22rpx w-6rpx rounded-4rpx bg-primary" />
+            <text class="text-24rpx text-[var(--brand-text-secondary)]">{{ sub.name }}</text>
           </view>
           <MenuGrid :menus="sub.menus" :column="3" />
         </template>

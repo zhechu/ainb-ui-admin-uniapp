@@ -7,8 +7,8 @@
       placeholder safe-area-inset-top fixed
     >
       <template #right>
-        <view class="pr-10rpx" @click="gotoSearch">
-          <wd-icon name="search-line" size="40rpx" color="#333" />
+        <view class="yd-navbar__action" @click="gotoSearch">
+          <wd-icon name="search-line" size="40rpx" color="var(--brand-text-strong)" />
         </view>
       </template>
     </wd-navbar>
@@ -16,8 +16,8 @@
     <!-- #ifdef MP-WEIXIN -->
     <wd-navbar title="工作台" placeholder safe-area-inset-top fixed>
       <template #left>
-        <view class="pl-4rpx" @click="gotoSearch">
-          <wd-icon name="search-line" size="40rpx" color="#333" />
+        <view class="yd-navbar__action" @click="gotoSearch">
+          <wd-icon name="search-line" size="40rpx" color="var(--brand-text-strong)" />
         </view>
       </template>
     </wd-navbar>
