@@ -108,16 +108,26 @@
 
 按 `src/pages-*` 分包**如实**列出。已交付 = 后端模块存在、导航可到达、页面可用；未交付 = 页面文件来自上游但后端无对应模块、App 菜单已裁掉，**不要以为它们能用**。
 
+下表的「页面文件数」口径是**该分包下 `.vue` 文件的数量**（不含 `.ts` / `.scss`），可用 `find src/<分包> -name "*.vue" | wc -l` 复现。
+
 ### 已交付（6 个分包，389 个页面文件）
 
 | 分包 | 页面文件数 | 内容 |
 | --- | --- | --- |
-| `src/pages` | 28 | 主包：工作台（4 种布局）、工作台搜索 / 设置、审批、消息、我的、联系客服 |
+| `src/pages` | 28 | 主包：工作台（4 种布局）、工作台搜索 / 设置、审批（待办任务 / 已办任务 / 我的流程 / 抄送我的 四个 tab）、消息、我的、联系客服 |
 | `src/pages-core` | 24 | 登录 / 验证码登录 / 三方登录、错误页、个人资料、账号安全、FAQ、意见反馈、设置 |
-| `src/pages-system` | 120 | 系统管理：用户 / 部门 / 岗位 / 角色 / 菜单 / 字典 / 通知公告 / 日志 / 租户等 |
-| `src/pages-infra` | 62 | 基础设施：文件管理、定时任务、代码生成、API 访问日志等 |
-| `src/pages-bpm` | 69 | 工作流程：我的 / 待办 / 已办 / 抄送、流程模型、审批详情、**在线表单渲染器** |
-| `src/pages-ai` | 86 | AI：助手对话、知识库、模型 / 工具 / 提示词管理、音乐 / 绘图等玩法页 |
+| `src/pages-system` | 120 | 系统管理：用户 / 部门 / 岗位 / 角色 / 菜单 / 字典 / 区域 / 通知公告 / 短信 / 邮件 / OAuth2 / 操作与登录日志 / 租户 |
+| `src/pages-infra` | 62 | 基础设施：文件、配置、定时任务、代码生成、数据源、API 访问 / 错误日志、WebSocket、**在线表单运行时**（`form-design/run/`） |
+| `src/pages-bpm` | 69 | 工作流程：任务管理、流程管理、流程分类 / 监听器 / 表达式管理、用户分组、发起申请（含 OA 请假示例）、审批详情（加签 / 减签 / 委派 / 转办 / 取消 / 抄送），以及 **wot-ui 版在线表单渲染器**（`components/form-create/packages/{core,utils,wot-ui}`） |
+| `src/pages-ai` | 86 | AI：助手对话、知识库、模型 / 工具 / 角色 / API 密钥管理（`model/{model,tool,chatRole,apiKey}`），以及绘图 / 音乐 / 思维导图 / 写作 / 工作流玩法页 |
+
+> 待办 / 已办 四个列表在**主包** `src/pages/bpm/`，不在 `src/pages-bpm/` 分包里；后者装的是审批详情与管理类页面。两处都算 BPM 能力，但代码位置不同，改的时候别找错目录。
+>
+> `src/pages-bpm/definition/` 只有一个 `process-definition-search-picker.vue` 组件、**没有独立页面** —— 流程定义是作为选择器被「发起申请」用的，不要以为少了一个页面。
+>
+> AI 分包**没有**提示词（prompt template）管理页 —— 实测 `src/pages-ai/model/` 下只有 `model` / `tool` / `chatRole` / `apiKey` 四组；`pages-ai` 里出现的「提示词」字样只是绘图页的输入框。Web 管理端的 `src/views/ai/model/` 同样是这四组，两端一致；Web 端另有提示词模板页，但它在**自研 Agent 模块**（`src/views/agent/promptTemplate`）里，见下条。
+
+> 🔴 **移动端没有 Agent 分包**：Web 端自研的智能助手 / 流程编排画布 / 智能体 / 工具 / 提示词模板 / 用量看板（`src/views/agent/`，后端 `enlev-module-agent`）在移动端**一行代码都没有**（实测 `src/pages-*` 无 `pages-agent`，`src/api/` 无 agent 接口；唯一的 `agent` 字样命中是 `social/client` 的 `agentId`，指企业微信应用，与 Agent 模块无关）。要在手机上用智能助手，目前只能开 H5 版 Web 管理端。
 
 ### 未交付（10 个分包，1055 个页面文件）——上游遗留，后端已裁掉对应 App 菜单
 
