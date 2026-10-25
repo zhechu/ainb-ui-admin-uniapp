@@ -283,7 +283,7 @@ Web 表单设计器产出的 rule / option JSON，在移动端由 `src/pages-bpm
 - **easycom**（`pages.config.ts`，改完需重启 dev）：
   - `^yd-(.*)` → `@/components/yudao-ui/yd-$1/yd-$1.vue`（自研 8 个）
   - `^wd-(.*)` → `@wot-ui/ui/components/wd-$1/wd-$1.vue`
-  - `^fg-(.*)` → `@/components/fg-$1/fg-$1.vue`（unibest 骨架组件）
+  - `^fg-(.*)` → `@/components/fg-$1/fg-$1.vue`（🔴 **死规则**：`src/components/` 下只有 `dict-tag/`、`system-select/`、`yudao-ui/`，没有任何 `fg-*` 目录。unibest 模板遗留，`fg-` 是模板作者的前缀。不匹配就不生效、没有运行时代价，故与 `yudao-ui/` 一样按「上游遗留不动」处理）
   - `z-paging` 用负向前瞻排除 `z-paging-refresh` / `z-paging-load-more`
 - **`src/components/yudao-ui/` 目录名刻意不改**：它牵连 56 个文件的 import、easycom 规则与自动生成的 `local-components.d.ts`，改名收益为零、风险面大；上游署名仅保留在目录名这一层。
 - **tabbar**：策略 `CUSTOM_TABBAR_WITH_CACHE`（自定义 + 缓存），配置在 `src/tabbar/config.ts`；**改完该文件必须重启 dev**，否则 `pages.json` 不更新、配置不生效。
