@@ -36,7 +36,8 @@
 - **Node ≥ 20 && pnpm ≥ 9**（🔴 **强制使用 pnpm**，`preinstall` 里 `npx only-allow pnpm` 直接拦下 npm / yarn）
 - **在线体验**：<https://demo.enlev.cn>（Web 端；移动端 H5 本地 `pnpm dev` 起在 9000 端口）
 - **官方文档**：<https://doc.enlev.cn>
-- **后端仓库**：[ainb](https://gitee.com/enlev/ainb)　**Web 仓库**：[ainb-ui-admin-vue3](https://gitee.com/enlev/ainb-ui-admin-vue3)
+- **后端仓库**：[ainb](https://gitee.com/enlev/ainb)
+- **Web 仓库**：[ainb-ui-admin-vue3](https://gitee.com/enlev/ainb-ui-admin-vue3)
 - **五分钟跑起来**：见下文 [🚀 快速开始](#-快速开始)
 
 ### 平台兼容性
@@ -338,8 +339,6 @@ Web 表单设计器产出的 rule / option JSON，在移动端由 `src/pages-bpm
 | 消息 | 我的 |
 |:--:|:--:|
 | ![](.image/mobile/03-message.png) | ![](.image/mobile/04-user.png) |
-
-> `.image/admin-uniapp/` 与 `.image/common/` 下是上游芋道的历史素材，本 README 不引用；重拍脚本与原始产物在工作区 `_evidence/`（不入库）。
 
 ---
 
