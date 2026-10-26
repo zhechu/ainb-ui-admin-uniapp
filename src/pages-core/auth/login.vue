@@ -75,6 +75,11 @@
         </text>
       </view> -->
     </view>
+
+    <!-- 版权与备案 -->
+    <view class="mt-auto flex justify-center pb-40rpx">
+      <copyright-footer />
+    </view>
   </view>
 </template>
 

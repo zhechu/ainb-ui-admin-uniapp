@@ -127,15 +127,15 @@
             如果您对本隐私政策有任何疑问、意见或建议，请通过以下方式联系我们：
           </text>
           <text class="mt-16rpx block">
-            邮箱：7685413@qq.com
+            邮箱：ling-yu-wang@qq.com
           </text>
           <text class="mt-16rpx block">
-            电话：400-999-9999
+            电话：400-xxx-xxxx
           </text>
         </view>
 
         <view class="mt-48rpx text-center text-24rpx text-gray-400">
-          <text>最后更新日期：2025 年 1 月 1 日</text>
+          <text>最后更新日期：2026 年 10 月 27 日</text>
         </view>
       </view>
     </view>
